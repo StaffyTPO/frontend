@@ -26,14 +26,9 @@ import {
   BottomNavigationTab,
   Text,
 } from 'react-native-ui-kitten';
+import {Router, Scene, Tabs} from 'react-native-router-flux';
 
-import {
-  Header,
-  LearnMoreLinks,
-  Colors,
-  DebugInstructions,
-  ReloadInstructions,
-} from 'react-native/Libraries/NewAppScreen';
+import TabComponent from './components/TabComponent';
 
 import ActivityOverview from './components/ActivityOverview';
 import ActivityList from './components/ActivityList';
@@ -44,10 +39,27 @@ const App = () => {
       <IconRegistry icons={EvaIconsPack} />
       <ApplicationProvider mapping={mapping} theme={lightTheme}>
         <SafeAreaView />
-        <Layout style={styles.main} level="4">
-          {/* <ActivityList></ActivityList> */}
+        <Router>
+          <Scene key="root" hideNavBar={true}>
+            <Tabs key="tabbar" tabs={true} tabBarComponent={TabComponent}>
+              <Scene key="home" title="HOME">
+                <Scene
+                  initial={true}
+                  hideNavBar={true}
+                  key="homePage"
+                  component={ActivityList}></Scene>
+                <Scene
+                  hideNavBar={true}
+                  key="activityOverview"
+                  component={ActivityOverview}></Scene>
+              </Scene>
+            </Tabs>
+          </Scene>
+        </Router>
+        {/* <Layout style={styles.main} level="4">
+          <ActivityList></ActivityList>
           <ActivityOverview></ActivityOverview>
-        </Layout>
+        </Layout> */}
       </ApplicationProvider>
     </React.Fragment>
   );
@@ -57,51 +69,6 @@ const styles = StyleSheet.create({
   main: {
     height: '100%',
     width: '100%',
-  },
-  container: {
-    paddingBottom: 30,
-    paddingHorizontal: 25,
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'flex-start',
-    flexWrap: 'wrap',
-    backgroundColor: 'transparent',
-  },
-  scrollView: {
-    backgroundColor: Colors.lighter,
-  },
-  engine: {
-    position: 'absolute',
-    right: 0,
-  },
-  body: {
-    backgroundColor: Colors.white,
-  },
-  sectionContainer: {
-    marginTop: 32,
-    paddingHorizontal: 24,
-  },
-  sectionTitle: {
-    fontSize: 24,
-    fontWeight: '600',
-    color: Colors.black,
-  },
-  sectionDescription: {
-    marginTop: 8,
-    fontSize: 18,
-    fontWeight: '400',
-    color: Colors.dark,
-  },
-  highlight: {
-    fontWeight: '700',
-  },
-  footer: {
-    color: Colors.dark,
-    fontSize: 12,
-    fontWeight: '600',
-    padding: 4,
-    paddingRight: 12,
-    textAlign: 'right',
   },
 });
 

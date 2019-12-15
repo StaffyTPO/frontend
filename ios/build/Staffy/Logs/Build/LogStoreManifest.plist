@@ -6,7 +6,7 @@
 	<integer>10</integer>
 	<key>logs</key>
 	<dict>
-		<key>9BBA42B6-327C-4956-828E-F0B212CD201B</key>
+		<key>8872F84F-F9EE-4C21-82A0-948433984D13</key>
 		<dict>
 			<key>className</key>
 			<string>IDECommandLineBuildLog</string>
@@ -15,13 +15,13 @@
 			<key>domainType</key>
 			<string>Xcode.IDEActivityLogDomainType.BuildLog</string>
 			<key>fileName</key>
-			<string>9BBA42B6-327C-4956-828E-F0B212CD201B.xcactivitylog</string>
+			<string>8872F84F-F9EE-4C21-82A0-948433984D13.xcactivitylog</string>
 			<key>hasPrimaryLog</key>
 			<true/>
 			<key>primaryObservable</key>
 			<dict>
 				<key>highLevelStatus</key>
-				<string>E</string>
+				<string>W</string>
 			</dict>
 			<key>schemeIdentifier-containerName</key>
 			<string>Staffy project</string>
@@ -32,13 +32,13 @@
 			<key>signature</key>
 			<string>Building workspace Staffy with scheme Staffy and configuration Debug</string>
 			<key>timeStartedRecording</key>
-			<real>598040533.51948202</real>
+			<real>598135413.45876002</real>
 			<key>timeStoppedRecording</key>
-			<real>598040537.62945199</real>
+			<real>598135439.54908097</real>
 			<key>title</key>
 			<string>Building workspace Staffy with scheme Staffy and configuration Debug</string>
 			<key>uniqueIdentifier</key>
-			<string>9BBA42B6-327C-4956-828E-F0B212CD201B</string>
+			<string>8872F84F-F9EE-4C21-82A0-948433984D13</string>
 		</dict>
 	</dict>
 </dict>

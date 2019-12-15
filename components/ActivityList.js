@@ -17,6 +17,7 @@ export default class ActivityList extends Component {
       query: `
         query {
           aktivnosti (podjetjeId: 1) {
+            id
             naslov
             opis
             prostor {
@@ -56,17 +57,20 @@ export default class ActivityList extends Component {
 
   render() {
     return (
-      <Layout style={styles.container} level="1">
-        {this.state.activities && //tole se uporabi da obstaja nek activities array
-          this.state.activities.map((activity, index) => {
-            //z mapom si pomagamo da array iteriramo na posamezne komponente
-            return (
-              <ActivityListItem
-                key={index} //uporabimo komponento ter dolocimo propse,
-                title={activity.naslov} //title se bo uporabil v otroku
-                komentar={activity.opis}></ActivityListItem>
-            );
-          })}
+      <Layout style={styles.container} level="4">
+        <ScrollView>
+          {this.state.activities && //tole se uporabi da obstaja nek activities array
+            this.state.activities.map((activity, index) => {
+              //z mapom si pomagamo da array iteriramo na posamezne komponente
+              return (
+                <ActivityListItem
+                  key={index} //uporabimo komponento ter dolocimo propse,
+                  title={activity.naslov} //title se bo uporabil v otroku
+                  komentar={activity.opis}
+                  id={activity.id}></ActivityListItem>
+              );
+            })}
+        </ScrollView>
       </Layout>
     );
   }
@@ -74,6 +78,7 @@ export default class ActivityList extends Component {
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: 'transparent',
+    height: '100%',
+    flex: 1,
   },
 });

@@ -15,7 +15,7 @@ export default class ActivityOverview extends Component {
     const requestBody = {
       query: `
             query {
-              aktivnosti (podjetjeId: 1) {
+              aktivnostIDja(aktivnostId:${this.props.id}) {
                 naslov
                 opis
                 prostor {
@@ -48,7 +48,7 @@ export default class ActivityOverview extends Component {
         return res.json();
       })
       .then(resData => {
-        this.setState({aktivnost: resData.data.aktivnosti[0]});
+        this.setState({aktivnost: resData.data.aktivnostIDja});
         //console.log(resData.data.aktivnosti[0]);
       })
       .catch(err => {
@@ -63,9 +63,17 @@ export default class ActivityOverview extends Component {
           <Layout style={styles.container}>
             <Text category="h5">{this.state.aktivnost.naslov}</Text>
             <Text>Opis: {this.state.aktivnost.opis}</Text>
-            <Text>Prostor: {this.state.aktivnost.prostor.naziv}</Text>
-            <Text>Vrsta Službe: {this.state.aktivnost.vrsta_sluzbe.naziv}</Text>
-            <Text>Prioriteta: {this.state.aktivnost.prioriteta.tip}</Text>
+            {this.state.aktivnost.prostor && (
+              <Text>Prostor: {this.state.aktivnost.prostor.naziv}</Text>
+            )}
+            {this.state.aktivnost.vrsta_sluzbe && (
+              <Text>
+                Vrsta Službe: {this.state.aktivnost.vrsta_sluzbe.naziv}
+              </Text>
+            )}
+            {this.state.aktivnost.prioriteta && (
+              <Text>Prioriteta: {this.state.aktivnost.prioriteta.tip}</Text>
+            )}
           </Layout>
         ) : (
           <Text>Loading...</Text>
@@ -79,6 +87,5 @@ const styles = StyleSheet.create({
   container: {
     backgroundColor: 'transparent',
     marginHorizontal: 15,
-    marginVertical: 15,
   },
 });
