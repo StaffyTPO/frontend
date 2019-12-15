@@ -35,16 +35,16 @@ import {
   ReloadInstructions,
 } from 'react-native/Libraries/NewAppScreen';
 
+import ActivityList from './components/ActivityList';
+
 const App = () => {
   return (
     <React.Fragment>
       <IconRegistry icons={EvaIconsPack} />
       <ApplicationProvider mapping={mapping} theme={lightTheme}>
-        <Layout>
-          <SafeAreaView />
-          <Layout style={styles.container}>
-            <Text>Hudo dela</Text>
-          </Layout>
+        <SafeAreaView />
+        <Layout style={styles.main} level="4">
+          <ActivityList></ActivityList>
         </Layout>
       </ApplicationProvider>
     </React.Fragment>
@@ -52,6 +52,10 @@ const App = () => {
 };
 
 const styles = StyleSheet.create({
+  main: {
+    height: '100%',
+    width: '100%',
+  },
   container: {
     paddingBottom: 30,
     paddingHorizontal: 25,
