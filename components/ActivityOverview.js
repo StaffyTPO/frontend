@@ -21,6 +21,9 @@ export default class ActivityOverview extends Component {
                 prostor {
                   naziv
                 }
+                prioriteta{
+                  tip
+                }
                 vrsta_sluzbe {
                   naziv
                 }
@@ -59,9 +62,10 @@ export default class ActivityOverview extends Component {
         {this.state.aktivnost ? (
           <Layout style={styles.container}>
             <Text category="h5">{this.state.aktivnost.naslov}</Text>
-            <Text>OPIS: {this.state.aktivnost.opis}</Text>
-            <Text>PROSTOR: {this.state.aktivnost.prostor.naziv}</Text>
-            <Text>VRSTA SLUŽBE: {this.state.aktivnost.vrsta_sluzbe.naziv}</Text>
+            <Text>Opis: {this.state.aktivnost.opis}</Text>
+            <Text>Prostor: {this.state.aktivnost.prostor.naziv}</Text>
+            <Text>Vrsta Službe: {this.state.aktivnost.vrsta_sluzbe.naziv}</Text>
+            <Text>Prioriteta: {this.state.aktivnost.prioriteta.tip}</Text>
           </Layout>
         ) : (
           <Text>Loading...</Text>
@@ -75,5 +79,6 @@ const styles = StyleSheet.create({
   container: {
     backgroundColor: 'transparent',
     marginHorizontal: 15,
+    marginVertical: 15,
   },
 });
