@@ -35,6 +35,7 @@ import {
   ReloadInstructions,
 } from 'react-native/Libraries/NewAppScreen';
 
+import ActivityOverview from './components/ActivityOverview';
 import ActivityList from './components/ActivityList';
 
 const App = () => {
@@ -44,7 +45,8 @@ const App = () => {
       <ApplicationProvider mapping={mapping} theme={lightTheme}>
         <SafeAreaView />
         <Layout style={styles.main} level="4">
-          <ActivityList></ActivityList>
+          {/* <ActivityList></ActivityList> */}
+          <ActivityOverview></ActivityOverview>
         </Layout>
       </ApplicationProvider>
     </React.Fragment>
