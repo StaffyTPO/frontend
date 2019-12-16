@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import {StyleSheet, ScrollView} from 'react-native';
 
-import {Layout, Text} from 'react-native-ui-kitten';
+import {Layout, Text, Spinner} from 'react-native-ui-kitten';
 
 import ActivityListItem from './ActivityListItem';
 
@@ -68,19 +68,26 @@ export default class ActivityList extends Component {
     return (
       <Layout style={styles.container} level="3">
         <ScrollView>
-          {this.state.activities && //tole se uporabi da obstaja nek activities array
-            this.state.activities.map((activity, index) => {
-              //z mapom si pomagamo da array iteriramo na posamezne komponente
-              return (
-                <ActivityListItem
-                  key={index} //uporabimo komponento ter dolocimo propse,
-                  title={activity.naslov} //title se bo uporabil v otroku
-                  prioriteta={activity.prioriteta}
-                  komentar={activity.opis}
-                  prostor={activity.prostor}
-                  id={activity.id}></ActivityListItem>
-              );
-            })}
+          <Layout style={styles.activityList}>
+            {this.state.activities ? ( //tole se uporabi da obstaja nek activities array
+              this.state.activities.map((activity, index) => {
+                //z mapom si pomagamo da array iteriramo na posamezne komponente
+                return (
+                  <ActivityListItem
+                    key={index} //uporabimo komponento ter dolocimo propse,
+                    title={activity.naslov} //title se bo uporabil v otroku
+                    prioriteta={activity.prioriteta}
+                    komentar={activity.opis}
+                    prostor={activity.prostor}
+                    id={activity.id}></ActivityListItem>
+                );
+              })
+            ) : (
+              <Layout style={styles.spinner}>
+                <Spinner />
+              </Layout>
+            )}
+          </Layout>
         </ScrollView>
       </Layout>
     );
@@ -91,5 +98,19 @@ const styles = StyleSheet.create({
   container: {
     height: '100%',
     flex: 1,
+  },
+  activityList: {
+    marginVertical: 10,
+    marginHorizontal: 10,
+    backgroundColor: 'transparent',
+  },
+  spinner: {
+    paddingVertical: 20,
+    paddingHorizontal: 15,
+    borderRadius: 10,
+    width: '100%',
+    flexDirection: 'row',
+    justifyContent: 'center',
+    alignItems: 'center',
   },
 });

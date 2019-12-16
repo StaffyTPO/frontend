@@ -7,6 +7,7 @@ import {
   Icon,
   TopNavigation,
   TopNavigationAction,
+  Spinner,
 } from 'react-native-ui-kitten';
 
 import {Actions} from 'react-native-router-flux';
@@ -89,7 +90,9 @@ export default class ActivityOverview extends Component {
             )}
           </Layout>
         ) : (
-          <Text>Loading...</Text>
+          <Layout style={styles.spinner}>
+            <Spinner />
+          </Layout>
         )}
       </Layout>
     );
@@ -100,5 +103,11 @@ const styles = StyleSheet.create({
   container: {
     backgroundColor: 'transparent',
     marginHorizontal: 15,
+  },
+  spinner: {
+    width: '100%',
+    flexDirection: 'row',
+    justifyContent: 'center',
+    alignItems: 'center',
   },
 });

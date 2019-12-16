@@ -32,17 +32,19 @@ import TabComponent from './components/TabComponent';
 
 import ActivityOverview from './components/ActivityOverview';
 import ActivityList from './components/ActivityList';
+import AddNew from './components/AddNew';
 
 const App = () => {
   return (
     <React.Fragment>
       <IconRegistry icons={EvaIconsPack} />
       <ApplicationProvider mapping={mapping} theme={lightTheme}>
+        <StatusBar barStyle="dark-content" />
         <SafeAreaView />
         <Router>
           <Scene key="root" hideNavBar={true}>
             <Tabs key="tabbar" tabs={true} tabBarComponent={TabComponent}>
-              <Scene key="home" title="HOME">
+              <Scene key="home" title="DOMOV">
                 <Scene
                   initial={true}
                   hideNavBar={true}
@@ -52,6 +54,13 @@ const App = () => {
                   hideNavBar={true}
                   key="activityOverview"
                   component={ActivityOverview}></Scene>
+              </Scene>
+              <Scene key="add" title="DODAJ">
+                <Scene
+                  initial={true}
+                  hideNavBar={true}
+                  key="addNewPage"
+                  component={AddNew}></Scene>
               </Scene>
             </Tabs>
           </Scene>
