@@ -1,7 +1,15 @@
 import React, {Component} from 'react';
 import {StyleSheet, ScrollView} from 'react-native';
 
-import {Layout, Text} from 'react-native-ui-kitten';
+import {
+  Layout,
+  Text,
+  Icon,
+  TopNavigation,
+  TopNavigationAction,
+} from 'react-native-ui-kitten';
+
+import {Actions} from 'react-native-router-flux';
 
 export default class ActivityOverview extends Component {
   state = {aktivnost: ''};
@@ -57,8 +65,13 @@ export default class ActivityOverview extends Component {
   };
 
   render() {
+    const BackIcon = style => <Icon {...style} name="arrow-back" />;
+    const BackAction = () => (
+      <TopNavigationAction onPress={() => Actions.pop()} icon={BackIcon} />
+    );
     return (
       <Layout>
+        <TopNavigation leftControl={BackAction()} title="Back" />
         {this.state.aktivnost ? (
           <Layout style={styles.container}>
             <Text category="h5">{this.state.aktivnost.naslov}</Text>

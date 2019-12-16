@@ -15,19 +15,28 @@ export default class ActivityList extends Component {
   handleSubmit = event => {
     const requestBody = {
       query: `
-        query {
-          aktivnosti (podjetjeId: 1) {
-            id
-            naslov
-            opis
-            prostor {
-              naziv
-            }
-            vrsta_sluzbe {
-              naziv
-            }
+      query {
+        aktivnosti (podjetjeId:1){
+          id
+          naslov
+          opis
+          prostor {
+            naziv
           }
+          prioriteta {
+            tip
+            barva
+          }
+          vrsta_sluzbe {
+            naziv
+            barva
+          }
+          status {
+            name
+          }
+          koncni_datum
         }
+      }
       `,
     };
 
@@ -48,7 +57,7 @@ export default class ActivityList extends Component {
       })
       .then(resData => {
         this.setState({activities: resData.data.aktivnosti});
-        console.log(resData.data);
+        console.log(resData.data.aktivnosti[0]);
       })
       .catch(err => {
         console.log(err);
@@ -57,7 +66,7 @@ export default class ActivityList extends Component {
 
   render() {
     return (
-      <Layout style={styles.container} level="4">
+      <Layout style={styles.container} level="3">
         <ScrollView>
           {this.state.activities && //tole se uporabi da obstaja nek activities array
             this.state.activities.map((activity, index) => {
@@ -66,7 +75,9 @@ export default class ActivityList extends Component {
                 <ActivityListItem
                   key={index} //uporabimo komponento ter dolocimo propse,
                   title={activity.naslov} //title se bo uporabil v otroku
+                  prioriteta={activity.prioriteta}
                   komentar={activity.opis}
+                  prostor={activity.prostor}
                   id={activity.id}></ActivityListItem>
               );
             })}
