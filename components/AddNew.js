@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {StyleSheet} from 'react-native';
+import {StyleSheet, Image, TouchableWithoutFeedback} from 'react-native';
 
 import {
   Layout,
@@ -14,8 +14,11 @@ import {
 
 import {Actions} from 'react-native-router-flux';
 
-const CalendarIcon = style => <Icon {...style} name="calendar" />;
+import ImagePicker from 'react-native-image-picker';
+
+const CalendarIcon = style => <Icon {...style} name="calendar-outline" />;
 const AddIcon = style => <Icon {...style} name="plus-outline" />;
+const ImageIcon = style => <Icon {...style} name="image-outline" />;
 
 export default class AddNew extends Component {
   state = {
@@ -26,6 +29,7 @@ export default class AddNew extends Component {
     oznacenaPrioriteta: '',
     koncniRok: '',
     loading: true,
+    imageSource: null,
   };
 
   componentDidMount() {
@@ -181,6 +185,29 @@ export default class AddNew extends Component {
       });
   };
 
+  selectImage = async () => {
+    ImagePicker.showImagePicker(
+      {noData: true, mediaType: 'photo'},
+      response => {
+        console.log('Response = ', response);
+
+        if (response.didCancel) {
+          console.log('User cancelled image picker');
+        } else if (response.error) {
+          console.log('ImagePicker Error: ', response.error);
+        } else if (response.customButton) {
+          console.log('User tapped custom button: ', response.customButton);
+        } else {
+          // You can also display the image using data:
+          // const source = { uri: 'data:image/jpeg;base64,' + response.data };
+          this.setState({
+            imageSource: response.uri,
+          });
+        }
+      },
+    );
+  };
+
   render() {
     return (
       <Layout style={styles.container} level="3">
@@ -245,10 +272,40 @@ export default class AddNew extends Component {
                   onSelect={this.setDate}
                   icon={CalendarIcon}
                 />
+                <Text style={styles.formLabel} category="label">
+                  Slika
+                </Text>
+                <Layout style={styles.multipleImagesContainer}>
+                  {this.state.imageSource && (
+                    <Image
+                      style={styles.imageContainer}
+                      source={{uri: this.state.imageSource}}></Image>
+                  )}
+                  <TouchableWithoutFeedback onPress={this.selectImage}>
+                    <Layout style={styles.addImageButton}>
+                      <Text style={styles.addImageButtonText} appearance="hint">
+                        Dodaj Sliko
+                      </Text>
+                      <Icon
+                        name="image-outline"
+                        width={25}
+                        height={25}
+                        fill="#8f9bb3"
+                      />
+                    </Layout>
+                  </TouchableWithoutFeedback>
+                  {/* <Button
+                    onPress={this.selectImage}
+                    icon={ImageIcon}
+                    style={styles.dodajImageButton}
+                    status="basic">
+                    DODAJ SLIKO
+                  </Button> */}
+                </Layout>
               </Layout>
               <Layout style={styles.form}>
                 <Button
-                  onPress={this.dodajAktivnost}
+                  onPress={this.selectImage}
                   icon={AddIcon}
                   style={styles.dodajButton}
                   disabled={!this.state.naslov || !this.state.opis}>
@@ -298,5 +355,32 @@ const styles = StyleSheet.create({
     height: '100%',
     backgroundColor: 'transparent',
     justifyContent: 'space-between',
+  },
+  dodajImageButton: {
+    width: '50%',
+  },
+  imageContainer: {
+    width: 150,
+    height: 150,
+    resizeMode: 'cover',
+    borderRadius: 4,
+    marginRight: 15,
+  },
+  addImageButton: {
+    flexDirection: 'row',
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: '#f7f9fc',
+    width: 150,
+    height: 150,
+    borderRadius: 4,
+    borderColor: '#e4e9f2',
+    borderWidth: 1,
+  },
+  addImageButtonText: {
+    marginRight: 10,
+  },
+  multipleImagesContainer: {
+    flexDirection: 'row',
   },
 });
