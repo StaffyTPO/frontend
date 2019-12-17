@@ -173,9 +173,9 @@ export default class AddNew extends Component {
         this.setState({
           naslov: '',
           opis: '',
-          oznacenProstor: '',
-          oznacenaVrstaSluzbe: '',
-          oznacenaPrioriteta: '',
+          oznacenProstor: {},
+          oznacenaVrstaSluzbe: {},
+          oznacenaPrioriteta: {},
           koncniRok: '',
         });
         Actions.homePage();
@@ -305,7 +305,7 @@ export default class AddNew extends Component {
               </Layout>
               <Layout style={styles.form}>
                 <Button
-                  onPress={this.selectImage}
+                  onPress={this.dodajAktivnost}
                   icon={AddIcon}
                   style={styles.dodajButton}
                   disabled={!this.state.naslov || !this.state.opis}>
