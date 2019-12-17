@@ -15,6 +15,7 @@ import {
 import {Actions} from 'react-native-router-flux';
 
 import ImagePicker from 'react-native-image-picker';
+import {ScrollView} from 'react-native-gesture-handler';
 
 const CalendarIcon = style => <Icon {...style} name="calendar-outline" />;
 const AddIcon = style => <Icon {...style} name="plus-outline" />;
@@ -107,6 +108,11 @@ export default class AddNew extends Component {
   };
   setOpis = e => {
     this.setState({opis: e});
+  };
+  resetImagePicker = e => {
+    this.setState({
+      imageSource: null,
+    });
   };
 
   dodajAktivnost = () => {
@@ -210,7 +216,7 @@ export default class AddNew extends Component {
 
   render() {
     return (
-      <Layout style={styles.container} level="3">
+      <ScrollView style={styles.container} level="3">
         <Layout style={styles.formContainer}>
           {this.state.loading ? (
             <Layout style={styles.spinner}>
@@ -303,9 +309,11 @@ export default class AddNew extends Component {
                   </Button> */}
                 </Layout>
               </Layout>
+              <Layout></Layout>
+
               <Layout style={styles.form}>
                 <Button
-                  onPress={this.dodajAktivnost}
+                  onPress={this.dodajAktivnost /*&& this.resetImagePicker*/}
                   icon={AddIcon}
                   style={styles.dodajButton}
                   disabled={!this.state.naslov || !this.state.opis}>
@@ -315,7 +323,7 @@ export default class AddNew extends Component {
             </Layout>
           )}
         </Layout>
-      </Layout>
+      </ScrollView>
     );
   }
 }
