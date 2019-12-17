@@ -1,12 +1,12 @@
 import React, {Component} from 'react';
-import {StyleSheet, ScrollView} from 'react-native';
+import {StyleSheet, ScrollView, RefreshControl} from 'react-native';
 
 import {Layout, Text, Spinner} from 'react-native-ui-kitten';
 
 import ActivityListItem from './ActivityListItem';
 
 export default class ActivityList extends Component {
-  state = {};
+  state = {refreshing: false};
 
   componentDidMount() {
     this.handleSubmit();
@@ -56,7 +56,7 @@ export default class ActivityList extends Component {
         return res.json();
       })
       .then(resData => {
-        this.setState({activities: resData.data.aktivnosti});
+        this.setState({activities: resData.data.aktivnosti, refreshing: false});
         console.log(resData.data.aktivnosti[0]);
       })
       .catch(err => {
@@ -64,10 +64,21 @@ export default class ActivityList extends Component {
       });
   };
 
+  onRefresh = () => {
+    this.setState({refreshing: true});
+    this.handleSubmit();
+  };
+
   render() {
     return (
       <Layout style={styles.container} level="3">
-        <ScrollView>
+        <ScrollView
+          refreshControl={
+            <RefreshControl
+              refreshing={this.state.refreshing}
+              onRefresh={this.onRefresh}
+            />
+          }>
           <Layout style={styles.activityList}>
             {this.state.activities ? ( //tole se uporabi da obstaja nek activities array
               this.state.activities.map((activity, index) => {
