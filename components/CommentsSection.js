@@ -46,7 +46,12 @@ export default class CommentsSection extends Component {
   render() {
     return (
       <Layout>
-        <Text category="h6">Sporočila: </Text>
+        <Text category="h6" style={styles.spacious}>
+          Komentarji:{' '}
+        </Text>
+        <Input style={styles.spacious}></Input>
+        <Button style={styles.spacious}>Objavi komentar</Button>
+
         {/* prikazi vse komentarje za neko aktivnost, urejeni po nastanku, zadnje dodani je najvisje */}
         {this.state.komentarji ? (
           this.state.komentarji.map(komentar => {
@@ -80,4 +85,7 @@ const styles = StyleSheet.create({
   //   container: {
   //     borderRadius: 10,
   //   },
+  spacious: {
+    margin: 3,
+  },
 });

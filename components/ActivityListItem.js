@@ -7,6 +7,10 @@ import Tag from './Tag';
 import {Actions} from 'react-native-router-flux';
 
 export default class ActivityListItem extends Component {
+  _onLongPressButton() {
+    alert('delete activity');
+  }
+
   render() {
     return (
       <React.Fragment>
@@ -15,7 +19,8 @@ export default class ActivityListItem extends Component {
             Actions.activityOverview({
               id: this.props.id,
             })
-          }>
+          }
+          onLongPress={this._onLongPressButton}>
           <Layout style={styles.container} level="1">
             <Layout style={styles.row}>
               {this.props.prioriteta && (
