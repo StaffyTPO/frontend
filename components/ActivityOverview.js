@@ -11,6 +11,7 @@ import {
 } from 'react-native-ui-kitten';
 
 import {Actions} from 'react-native-router-flux';
+import CommentsSection from './CommentsSection';
 
 export default class ActivityOverview extends Component {
   state = {aktivnost: ''};
@@ -71,24 +72,33 @@ export default class ActivityOverview extends Component {
       <TopNavigationAction onPress={() => Actions.pop()} icon={BackIcon} />
     );
     return (
-      <Layout>
+      <Layout style={styles.container} level="3">
         <TopNavigation leftControl={BackAction()} title="Back" />
         {this.state.aktivnost ? (
-          <Layout style={styles.container}>
-            <Text category="h5">{this.state.aktivnost.naslov}</Text>
-            <Text>Opis: {this.state.aktivnost.opis}</Text>
-            {this.state.aktivnost.prostor && (
-              <Text>Prostor: {this.state.aktivnost.prostor.naziv}</Text>
-            )}
-            {this.state.aktivnost.vrsta_sluzbe && (
-              <Text>
-                Vrsta Službe: {this.state.aktivnost.vrsta_sluzbe.naziv}
-              </Text>
-            )}
-            {this.state.aktivnost.prioriteta && (
-              <Text>Prioriteta: {this.state.aktivnost.prioriteta.tip}</Text>
-            )}
-          </Layout>
+          <ScrollView>
+            <Layout style={styles.activityContainer} level="1">
+              <Layout style={styles.activity}>
+                <Text category="h5">{this.state.aktivnost.naslov}</Text>
+                <Text>Opis: {this.state.aktivnost.opis}</Text>
+                {this.state.aktivnost.prostor && (
+                  <Text>Prostor: {this.state.aktivnost.prostor.naziv}</Text>
+                )}
+                {this.state.aktivnost.vrsta_sluzbe && (
+                  <Text>
+                    Vrsta Službe: {this.state.aktivnost.vrsta_sluzbe.naziv}
+                  </Text>
+                )}
+                {this.state.aktivnost.prioriteta && (
+                  <Text>Prioriteta: {this.state.aktivnost.prioriteta.tip}</Text>
+                )}
+              </Layout>
+            </Layout>
+            <Layout style={styles.activityContainer} level="1">
+              <Layout style={styles.activity}>
+                <CommentsSection />
+              </Layout>
+            </Layout>
+          </ScrollView>
         ) : (
           <Layout style={styles.spinner}>
             <Spinner />
@@ -101,8 +111,21 @@ export default class ActivityOverview extends Component {
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: 'transparent',
-    marginHorizontal: 15,
+    height: '100%',
+    flex: 1,
+  },
+  activityContainer: {
+    // backgroundColor: 'transparent',
+    // marginHorizontal: 15,
+    // height: '100%',
+    // height: '97%',
+    marginTop: 10,
+    marginHorizontal: 10,
+    borderRadius: 10,
+  },
+  activity: {
+    marginVertical: 10,
+    marginHorizontal: 10,
   },
   spinner: {
     width: '100%',
