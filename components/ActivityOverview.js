@@ -42,7 +42,7 @@ export default class ActivityOverview extends Component {
           `,
     };
 
-    console.log(requestBody);
+    // console.log(requestBody);
 
     fetch('https://staffy-app.herokuapp.com/graphql', {
       method: 'POST',
@@ -95,7 +95,7 @@ export default class ActivityOverview extends Component {
             </Layout>
             <Layout style={styles.activityContainer} level="1">
               <Layout style={styles.activity}>
-                <CommentsSection />
+                <CommentsSection idAktivnosti={this.props.id} />
               </Layout>
             </Layout>
           </ScrollView>

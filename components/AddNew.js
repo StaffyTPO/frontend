@@ -233,7 +233,6 @@ export default class AddNew extends Component {
                     style={styles.formItem}
                     placeholder="Dodaj naslov aktivnosti"
                     value={this.state.naslov}
-                    onC
                     onChangeText={this.setNaslov}
                   />
                   <Text style={styles.formLabel} category="label">

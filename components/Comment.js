@@ -45,7 +45,7 @@ export default function Comment(props) {
             <Text category="s1" style={styles.marginRight}>
               {props.uporabnik.ime} {props.uporabnik.priimek}
             </Text>
-            <Text category="c1">{props.datum}</Text>
+            <Text category="c1">{props.datum.slice(0, 10)}</Text>
           </Layout>
           <Text style={styles.text}>{props.sporocilo}</Text>
         </Layout>
