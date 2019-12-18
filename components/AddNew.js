@@ -216,7 +216,7 @@ export default class AddNew extends Component {
 
   render() {
     return (
-      <ScrollView style={styles.container} level="3">
+      <Layout style={styles.container} level="3">
         <Layout style={styles.formContainer}>
           {this.state.loading ? (
             <Layout style={styles.spinner}>
@@ -224,93 +224,88 @@ export default class AddNew extends Component {
             </Layout>
           ) : (
             <Layout style={styles.flex}>
-              <Layout style={styles.form}>
-                <Text style={styles.formLabel} category="label">
-                  Naslov
-                </Text>
-                <Input
-                  style={styles.formItem}
-                  placeholder="Dodaj naslov aktivnosti"
-                  value={this.state.naslov}
-                  onC
-                  onChangeText={this.setNaslov}
-                />
-                <Text style={styles.formLabel} category="label">
-                  Opis
-                </Text>
-                <Input
-                  style={styles.formItem}
-                  placeholder="Opiši zakaj je potrebna aktivnost"
-                  value={this.state.opis}
-                  onChangeText={this.setOpis}
-                />
-                <Text style={styles.formLabel} category="label">
-                  Prioriteta
-                </Text>
-                <Select
-                  style={styles.formItem}
-                  data={this.state.prioritete}
-                  selectedOption={this.state.oznacenaPrioriteta}
-                  onSelect={this.setSelectedOptionPrioriteta}></Select>
-                <Text style={styles.formLabel} category="label">
-                  Prostor
-                </Text>
-                <Select
-                  style={styles.formItem}
-                  data={this.state.prostori}
-                  selectedOption={this.state.oznacenProstor}
-                  onSelect={this.setSelectedOptionProstor}></Select>
-                <Text style={styles.formLabel} category="label">
-                  Vrsta službe
-                </Text>
-                <Select
-                  style={styles.formItem}
-                  data={this.state.vrsteSluzbe}
-                  selectedOption={this.state.oznacenaVrstaSluzbe}
-                  onSelect={this.setSelectedOptionVrstaSluzbe}></Select>
-                <Text style={styles.formLabel} category="label">
-                  Končni rok
-                </Text>
-                <Datepicker
-                  style={styles.formItem}
-                  placeholder="Pick Date"
-                  date={this.state.koncniRok}
-                  onSelect={this.setDate}
-                  icon={CalendarIcon}
-                />
-                <Text style={styles.formLabel} category="label">
-                  Slika
-                </Text>
-                <Layout style={styles.multipleImagesContainer}>
-                  {this.state.imageSource && (
-                    <Image
-                      style={styles.imageContainer}
-                      source={{uri: this.state.imageSource}}></Image>
-                  )}
-                  <TouchableWithoutFeedback onPress={this.selectImage}>
-                    <Layout style={styles.addImageButton}>
-                      <Text style={styles.addImageButtonText} appearance="hint">
-                        Dodaj Sliko
-                      </Text>
-                      <Icon
-                        name="image-outline"
-                        width={25}
-                        height={25}
-                        fill="#8f9bb3"
-                      />
-                    </Layout>
-                  </TouchableWithoutFeedback>
-                  {/* <Button
-                    onPress={this.selectImage}
-                    icon={ImageIcon}
-                    style={styles.dodajImageButton}
-                    status="basic">
-                    DODAJ SLIKO
-                  </Button> */}
+              <ScrollView>
+                <Layout style={styles.form}>
+                  <Text style={styles.formLabel} category="label">
+                    Naslov
+                  </Text>
+                  <Input
+                    style={styles.formItem}
+                    placeholder="Dodaj naslov aktivnosti"
+                    value={this.state.naslov}
+                    onC
+                    onChangeText={this.setNaslov}
+                  />
+                  <Text style={styles.formLabel} category="label">
+                    Opis
+                  </Text>
+                  <Input
+                    style={styles.formItem}
+                    placeholder="Opiši zakaj je potrebna aktivnost"
+                    value={this.state.opis}
+                    onChangeText={this.setOpis}
+                  />
+                  <Text style={styles.formLabel} category="label">
+                    Prioriteta
+                  </Text>
+                  <Select
+                    style={styles.formItem}
+                    data={this.state.prioritete}
+                    selectedOption={this.state.oznacenaPrioriteta}
+                    onSelect={this.setSelectedOptionPrioriteta}></Select>
+                  <Text style={styles.formLabel} category="label">
+                    Prostor
+                  </Text>
+                  <Select
+                    style={styles.formItem}
+                    data={this.state.prostori}
+                    selectedOption={this.state.oznacenProstor}
+                    onSelect={this.setSelectedOptionProstor}></Select>
+                  <Text style={styles.formLabel} category="label">
+                    Vrsta službe
+                  </Text>
+                  <Select
+                    style={styles.formItem}
+                    data={this.state.vrsteSluzbe}
+                    selectedOption={this.state.oznacenaVrstaSluzbe}
+                    onSelect={this.setSelectedOptionVrstaSluzbe}></Select>
+                  <Text style={styles.formLabel} category="label">
+                    Končni rok
+                  </Text>
+                  <Datepicker
+                    style={styles.formItem}
+                    placeholder="Pick Date"
+                    date={this.state.koncniRok}
+                    onSelect={this.setDate}
+                    icon={CalendarIcon}
+                  />
+                  <Text style={styles.formLabel} category="label">
+                    Slika
+                  </Text>
+                  <Layout style={styles.multipleImagesContainer}>
+                    {this.state.imageSource && (
+                      <Image
+                        style={styles.imageContainer}
+                        source={{uri: this.state.imageSource}}></Image>
+                    )}
+                    <TouchableWithoutFeedback onPress={this.selectImage}>
+                      <Layout style={styles.addImageButton}>
+                        <Text
+                          style={styles.addImageButtonText}
+                          appearance="hint">
+                          Dodaj Sliko
+                        </Text>
+                        <Icon
+                          name="image-outline"
+                          width={25}
+                          height={25}
+                          fill="#8f9bb3"
+                        />
+                      </Layout>
+                    </TouchableWithoutFeedback>
+                  </Layout>
                 </Layout>
-              </Layout>
-              <Layout></Layout>
-
+              </ScrollView>
               <Layout style={styles.form}>
                 <Button
                   onPress={this.dodajAktivnost /*&& this.resetImagePicker*/}
@@ -323,7 +318,7 @@ export default class AddNew extends Component {
             </Layout>
           )}
         </Layout>
-      </ScrollView>
+      </Layout>
     );
   }
 }
