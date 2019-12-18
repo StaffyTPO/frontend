@@ -40,7 +40,7 @@
 			<key>uniqueIdentifier</key>
 			<string>8E10F05F-53A8-4813-B4E3-7F6B1249BE23</string>
 		</dict>
-		<key>F1BD9DF3-5F14-437F-B388-ED15C81608F8</key>
+		<key>B84B40CA-C746-446F-AE79-20918C1B5107</key>
 		<dict>
 			<key>className</key>
 			<string>IDECommandLineBuildLog</string>
@@ -49,7 +49,7 @@
 			<key>domainType</key>
 			<string>Xcode.IDEActivityLogDomainType.BuildLog</string>
 			<key>fileName</key>
-			<string>F1BD9DF3-5F14-437F-B388-ED15C81608F8.xcactivitylog</string>
+			<string>B84B40CA-C746-446F-AE79-20918C1B5107.xcactivitylog</string>
 			<key>hasPrimaryLog</key>
 			<true/>
 			<key>primaryObservable</key>
@@ -66,13 +66,13 @@
 			<key>signature</key>
 			<string>Building workspace Staffy with scheme Staffy and configuration Debug</string>
 			<key>timeStartedRecording</key>
-			<real>598362249.36480999</real>
+			<real>598392791.91553199</real>
 			<key>timeStoppedRecording</key>
-			<real>598362260.47668505</real>
+			<real>598392794.58176994</real>
 			<key>title</key>
 			<string>Building workspace Staffy with scheme Staffy and configuration Debug</string>
 			<key>uniqueIdentifier</key>
-			<string>F1BD9DF3-5F14-437F-B388-ED15C81608F8</string>
+			<string>B84B40CA-C746-446F-AE79-20918C1B5107</string>
 		</dict>
 	</dict>
 </dict>

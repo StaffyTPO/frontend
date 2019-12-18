@@ -1,6 +1,6 @@
 import React from 'react';
 import {StyleSheet} from 'react-native';
-import {Layout, Text} from 'react-native-ui-kitten';
+import {Layout, Text} from '@ui-kitten/components';
 
 export default function Tag(props) {
   const styles = StyleSheet.create({

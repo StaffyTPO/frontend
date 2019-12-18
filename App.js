@@ -25,7 +25,7 @@ import {
   BottomNavigation,
   BottomNavigationTab,
   Text,
-} from 'react-native-ui-kitten';
+} from '@ui-kitten/components';
 import {Router, Scene, Tabs} from 'react-native-router-flux';
 
 import TabComponent from './components/TabComponent';
@@ -65,10 +65,6 @@ const App = () => {
             </Tabs>
           </Scene>
         </Router>
-        {/* <Layout style={styles.main} level="4">
-          <ActivityList></ActivityList>
-          <ActivityOverview></ActivityOverview>
-        </Layout> */}
       </ApplicationProvider>
     </React.Fragment>
   );

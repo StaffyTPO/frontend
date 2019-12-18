@@ -1,6 +1,6 @@
 import React from 'react';
 import {StyleSheet} from 'react-native';
-import {Layout, Text, Avatar} from 'react-native-ui-kitten';
+import {Layout, Text, Avatar} from '@ui-kitten/components';
 
 export default function Comment(props) {
   const styles = StyleSheet.create({

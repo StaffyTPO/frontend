@@ -8,7 +8,7 @@ import {
   BottomNavigation,
   BottomNavigationTab,
   Icon,
-} from 'react-native-ui-kitten';
+} from '@ui-kitten/components';
 
 const home = style => <Icon {...style} name="home-outline" />;
 const add = style => <Icon {...style} name="plus-outline" />;

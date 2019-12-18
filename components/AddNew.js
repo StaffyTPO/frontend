@@ -10,7 +10,7 @@ import {
   Datepicker,
   Input,
   Button,
-} from 'react-native-ui-kitten';
+} from '@ui-kitten/components';
 
 import {Actions} from 'react-native-router-flux';
 

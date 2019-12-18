@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import {StyleSheet, TouchableWithoutFeedback} from 'react-native';
 
-import {Layout, Text} from 'react-native-ui-kitten';
+import {Layout, Text} from '@ui-kitten/components';
 import Tag from './Tag';
 
 import {Actions} from 'react-native-router-flux';

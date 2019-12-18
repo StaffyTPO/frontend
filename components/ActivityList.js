@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import {StyleSheet, ScrollView, RefreshControl} from 'react-native';
 
-import {Layout, Text, Spinner} from 'react-native-ui-kitten';
+import {Layout, Text, Spinner} from '@ui-kitten/components';
 
 import ActivityListItem from './ActivityListItem';
 

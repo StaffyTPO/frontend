@@ -10,7 +10,7 @@ import {
   Datepicker,
   Input,
   Button,
-} from 'react-native-ui-kitten';
+} from '@ui-kitten/components';
 
 import Comment from './Comment';
 
@@ -19,6 +19,7 @@ export default class CommentsSection extends Component {
     loading: true,
     novKomentar: '',
     komentarji: '',
+    posilja: false,
   };
   componentDidMount() {
     this.vsiKomentarji();
@@ -75,6 +76,7 @@ export default class CommentsSection extends Component {
   }
 
   dodajKomentar = () => {
+    this.setState({posilja: true});
     const requestBody = {
       query: `
       mutation DodajKomentar(
@@ -129,6 +131,8 @@ export default class CommentsSection extends Component {
         vsi.push(resData.data.dodajKomentar);
         this.setState({
           komentarji: vsi,
+          novKomentar: '',
+          posilja: false,
         });
       })
       .catch(err => {
