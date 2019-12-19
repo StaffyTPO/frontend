@@ -15,8 +15,8 @@ import {
   StatusBar,
 } from 'react-native';
 
-import {EvaIconsPack} from '@ui-kitten/eva-icons';
-import {mapping, light as lightTheme, dark as darkTheme} from '@eva-design/eva';
+import { EvaIconsPack } from '@ui-kitten/eva-icons';
+import { mapping, light as lightTheme, dark as darkTheme } from '@eva-design/eva';
 
 import {
   ApplicationProvider,
@@ -26,13 +26,15 @@ import {
   BottomNavigationTab,
   Text,
 } from '@ui-kitten/components';
-import {Router, Scene, Tabs} from 'react-native-router-flux';
+import { Router, Scene, Tabs, Stack } from 'react-native-router-flux';
 
 import TabComponent from './components/TabComponent';
 
 import ActivityOverview from './components/ActivityOverview';
 import ActivityList from './components/ActivityList';
 import AddNew from './components/AddNew';
+import Login from './components/Login';
+import SecondPage from './components/SecondPage';
 
 const App = () => {
   return (
@@ -42,28 +44,40 @@ const App = () => {
         <StatusBar backgroundColor='white' barStyle="dark-content" />
         <SafeAreaView style={styles.safe_area} />
         <Router>
-          <Scene key="root" hideNavBar={true}>
-            <Tabs key="tabbar" tabs={true} tabBarComponent={TabComponent}>
-              <Scene key="home" title="DOMOV">
-                <Scene
-                  initial={true}
-                  hideNavBar={true}
-                  key="homePage"
-                  component={ActivityList}></Scene>
-                <Scene
-                  hideNavBar={true}
-                  key="activityOverview"
-                  component={ActivityOverview}></Scene>
-              </Scene>
-              <Scene key="add" title="DODAJ">
-                <Scene
-                  initial={true}
-                  hideNavBar={true}
-                  key="addNewPage"
-                  component={AddNew}></Scene>
-              </Scene>
-            </Tabs>
-          </Scene>
+          <Stack key="root" hideNavBar={true}>
+
+            <Scene key="loginPage" hideNavBar={true}>
+              <Scene component={Login}></Scene>
+            </Scene>
+
+            <Scene key="loginSuccess" hideNavBar={true}>
+              <Scene component={SecondPage}></Scene>
+            </Scene>
+
+            <Scene key="mainPage">
+              <Tabs key="tabbar" tabs={true} tabBarComponent={TabComponent}>
+                <Scene key="home" title="DOMOV">
+                  <Scene
+                    initial={true}
+                    hideNavBar={true}
+                    key="homePage"
+                    component={ActivityList}></Scene>
+                  <Scene
+                    hideNavBar={true}
+                    key="activityOverview"
+                    component={ActivityOverview}></Scene>
+                </Scene>
+                <Scene key="add" title="DODAJ">
+                  <Scene
+                    initial={true}
+                    hideNavBar={true}
+                    key="addNewPage"
+                    component={AddNew}></Scene>
+                </Scene>
+
+              </Tabs>
+            </Scene>
+          </Stack>
         </Router>
       </ApplicationProvider>
     </React.Fragment>
@@ -77,7 +91,7 @@ const styles = StyleSheet.create({
   },
   safe_area: {
     backgroundColor: 'red',
-    flex:0,
+    flex: 0,
   },
 });
 
