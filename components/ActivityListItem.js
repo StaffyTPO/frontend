@@ -34,7 +34,7 @@ export default class ActivityListItem extends Component {
               )}
             </Layout>
             <Layout>
-              <Text status="primary" category="h5">
+              <Text status="primary" category="h5" style={{fontWeight: 'bold'}}>
                 {this.props.title}
               </Text>
               <Text numberOfLines={2}>{this.props.komentar}</Text>

@@ -16,7 +16,7 @@ import {
 } from 'react-native';
 
 import {EvaIconsPack} from '@ui-kitten/eva-icons';
-import {mapping, light as lightTheme} from '@eva-design/eva';
+import {mapping, light as lightTheme, dark as darkTheme} from '@eva-design/eva';
 
 import {
   ApplicationProvider,
@@ -39,8 +39,8 @@ const App = () => {
     <React.Fragment>
       <IconRegistry icons={EvaIconsPack} />
       <ApplicationProvider mapping={mapping} theme={lightTheme}>
-        <StatusBar barStyle="dark-content" />
-        <SafeAreaView />
+        <StatusBar backgroundColor='white' barStyle="dark-content" />
+        <SafeAreaView style={styles.safe_area} />
         <Router>
           <Scene key="root" hideNavBar={true}>
             <Tabs key="tabbar" tabs={true} tabBarComponent={TabComponent}>
@@ -74,6 +74,10 @@ const styles = StyleSheet.create({
   main: {
     height: '100%',
     width: '100%',
+  },
+  safe_area: {
+    backgroundColor: 'red',
+    flex:0,
   },
 });
 

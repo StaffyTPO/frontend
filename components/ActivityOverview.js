@@ -1,5 +1,7 @@
 import React, {Component} from 'react';
 import {StyleSheet, ScrollView} from 'react-native';
+import Moment from 'moment';
+
 
 import {
   Layout,
@@ -12,6 +14,8 @@ import {
 
 import {Actions} from 'react-native-router-flux';
 import CommentsSection from './CommentsSection';
+import Tag from './Tag';
+import moment from 'moment';
 
 export default class ActivityOverview extends Component {
   state = {aktivnost: ''};
@@ -33,7 +37,9 @@ export default class ActivityOverview extends Component {
                 }
                 prioriteta{
                   tip
+                  barva
                 }
+                koncni_datum
                 vrsta_sluzbe {
                   naziv
                 }
@@ -78,18 +84,26 @@ export default class ActivityOverview extends Component {
           <ScrollView>
             <Layout style={styles.activityContainer} level="1">
               <Layout style={styles.activity}>
-                <Text category="h5">{this.state.aktivnost.naslov}</Text>
-                <Text>Opis: {this.state.aktivnost.opis}</Text>
-                {this.state.aktivnost.prostor && (
-                  <Text>Prostor: {this.state.aktivnost.prostor.naziv}</Text>
-                )}
+                <Text status='primary' category="h5" style={styles.title}>{this.state.aktivnost.naslov}</Text>
+                <Layout style={styles.row}>
+                  {this.state.aktivnost.prioriteta && (
+                    <Tag
+                      tekst={this.state.aktivnost.prioriteta.tip}
+                      barva={this.state.aktivnost.prioriteta.barva}
+                    />
+                  )}
+                  {this.state.aktivnost.prostor && (
+                    <Text style={{ fontWeight: 'bold'}}>{this.state.aktivnost.prostor.naziv}</Text>
+                  )}
+                </Layout>
+                {this.state.aktivnost.koncni_datum && (
+                    <Text style={{marginBottom: 20}}>{Moment(this.state.aktivnost.koncni_datum).format('D MMMM YYYY')}</Text>
+                  )}
+                <Text style={{textAlign: 'justify', marginBottom: 20}}>{this.state.aktivnost.opis}</Text>
                 {this.state.aktivnost.vrsta_sluzbe && (
                   <Text>
-                    Vrsta Službe: {this.state.aktivnost.vrsta_sluzbe.naziv}
+                    Zadolžitev: {this.state.aktivnost.vrsta_sluzbe.naziv}
                   </Text>
-                )}
-                {this.state.aktivnost.prioriteta && (
-                  <Text>Prioriteta: {this.state.aktivnost.prioriteta.tip}</Text>
                 )}
               </Layout>
             </Layout>
@@ -123,9 +137,20 @@ const styles = StyleSheet.create({
     marginHorizontal: 10,
     borderRadius: 10,
   },
+
+  title: {
+    textTransform: 'uppercase',
+    fontWeight: 'bold',
+  },
   activity: {
     marginVertical: 10,
     marginHorizontal: 10,
+  },
+  row: {
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    alignItems: 'center',
+    marginBottom: 5,
   },
   spinner: {
     width: '100%',
