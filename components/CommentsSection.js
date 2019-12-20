@@ -160,14 +160,17 @@ export default class CommentsSection extends Component {
 
         {/* prikazi vse komentarje za neko aktivnost, urejeni po nastanku, zadnje dodani je najvisje */}
         {this.state.komentarji ? (
-          this.state.komentarji.map(komentar => {
-            return (
-              <Comment
-                uporabnik={komentar.uporabnik}
-                sporocilo={komentar.sporocilo}
-                datum={komentar.datum}></Comment>
-            );
-          })
+          this.state.komentarji
+            .slice(0)
+            .reverse()
+            .map(komentar => {
+              return (
+                <Comment
+                  uporabnik={komentar.uporabnik}
+                  sporocilo={komentar.sporocilo}
+                  datum={komentar.datum}></Comment>
+              );
+            })
         ) : this.state.loading ? (
           <Layout style={styles.spinner}>
             <Spinner />
