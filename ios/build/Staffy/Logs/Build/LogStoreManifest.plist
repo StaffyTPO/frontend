@@ -6,7 +6,7 @@
 	<integer>10</integer>
 	<key>logs</key>
 	<dict>
-		<key>4F0F54DD-E841-4D94-9112-1BD45951F6A1</key>
+		<key>353F43B7-E755-4E79-888C-40FDE5BF7598</key>
 		<dict>
 			<key>className</key>
 			<string>IDECommandLineBuildLog</string>
@@ -15,7 +15,7 @@
 			<key>domainType</key>
 			<string>Xcode.IDEActivityLogDomainType.BuildLog</string>
 			<key>fileName</key>
-			<string>4F0F54DD-E841-4D94-9112-1BD45951F6A1.xcactivitylog</string>
+			<string>353F43B7-E755-4E79-888C-40FDE5BF7598.xcactivitylog</string>
 			<key>hasPrimaryLog</key>
 			<true/>
 			<key>primaryObservable</key>
@@ -30,17 +30,17 @@
 			<key>schemeIdentifier-sharedScheme</key>
 			<integer>1</integer>
 			<key>signature</key>
-			<string>Building workspace Staffy with scheme Staffy and configuration Release</string>
+			<string>Building workspace Staffy with scheme Staffy and configuration Debug</string>
 			<key>timeStartedRecording</key>
-			<real>598393542.69542098</real>
+			<real>598547442.59819996</real>
 			<key>timeStoppedRecording</key>
-			<real>598393651.31370699</real>
+			<real>598547448.57185698</real>
 			<key>title</key>
-			<string>Building workspace Staffy with scheme Staffy and configuration Release</string>
+			<string>Building workspace Staffy with scheme Staffy and configuration Debug</string>
 			<key>uniqueIdentifier</key>
-			<string>4F0F54DD-E841-4D94-9112-1BD45951F6A1</string>
+			<string>353F43B7-E755-4E79-888C-40FDE5BF7598</string>
 		</dict>
-		<key>B84B40CA-C746-446F-AE79-20918C1B5107</key>
+		<key>6F557EBA-2166-40D7-8EC9-7A0BEB5D57F2</key>
 		<dict>
 			<key>className</key>
 			<string>IDECommandLineBuildLog</string>
@@ -49,7 +49,7 @@
 			<key>domainType</key>
 			<string>Xcode.IDEActivityLogDomainType.BuildLog</string>
 			<key>fileName</key>
-			<string>B84B40CA-C746-446F-AE79-20918C1B5107.xcactivitylog</string>
+			<string>6F557EBA-2166-40D7-8EC9-7A0BEB5D57F2.xcactivitylog</string>
 			<key>hasPrimaryLog</key>
 			<true/>
 			<key>primaryObservable</key>
@@ -66,13 +66,13 @@
 			<key>signature</key>
 			<string>Building workspace Staffy with scheme Staffy and configuration Debug</string>
 			<key>timeStartedRecording</key>
-			<real>598392791.91553199</real>
+			<real>598489028.27844405</real>
 			<key>timeStoppedRecording</key>
-			<real>598392794.58176994</real>
+			<real>598489216.52273202</real>
 			<key>title</key>
 			<string>Building workspace Staffy with scheme Staffy and configuration Debug</string>
 			<key>uniqueIdentifier</key>
-			<string>B84B40CA-C746-446F-AE79-20918C1B5107</string>
+			<string>6F557EBA-2166-40D7-8EC9-7A0BEB5D57F2</string>
 		</dict>
 	</dict>
 </dict>

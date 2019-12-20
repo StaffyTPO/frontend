@@ -15,8 +15,8 @@ import {
   StatusBar,
 } from 'react-native';
 
-import { EvaIconsPack } from '@ui-kitten/eva-icons';
-import { mapping, light as lightTheme, dark as darkTheme } from '@eva-design/eva';
+import {EvaIconsPack} from '@ui-kitten/eva-icons';
+import {mapping, light as lightTheme, dark as darkTheme} from '@eva-design/eva';
 
 import {
   ApplicationProvider,
@@ -26,7 +26,7 @@ import {
   BottomNavigationTab,
   Text,
 } from '@ui-kitten/components';
-import { Router, Scene, Tabs, Stack } from 'react-native-router-flux';
+import {Router, Scene, Tabs, Stack} from 'react-native-router-flux';
 
 import TabComponent from './components/TabComponent';
 
@@ -41,11 +41,10 @@ const App = () => {
     <React.Fragment>
       <IconRegistry icons={EvaIconsPack} />
       <ApplicationProvider mapping={mapping} theme={lightTheme}>
-        <StatusBar backgroundColor='white' barStyle="dark-content" />
-        <SafeAreaView style={styles.safe_area} />
+        <StatusBar backgroundColor="white" barStyle="dark-content" />
+        <SafeAreaView />
         <Router>
           <Stack key="root" hideNavBar={true}>
-
             <Scene key="loginPage" hideNavBar={true}>
               <Scene component={Login}></Scene>
             </Scene>
@@ -53,8 +52,7 @@ const App = () => {
             <Scene key="loginSuccess" hideNavBar={true}>
               <Scene component={SecondPage}></Scene>
             </Scene>
-
-            <Scene key="mainPage">
+            <Scene key="mainPage" hideNavBar={true}>
               <Tabs key="tabbar" tabs={true} tabBarComponent={TabComponent}>
                 <Scene key="home" title="DOMOV">
                   <Scene
@@ -74,7 +72,6 @@ const App = () => {
                     key="addNewPage"
                     component={AddNew}></Scene>
                 </Scene>
-
               </Tabs>
             </Scene>
           </Stack>
@@ -88,10 +85,6 @@ const styles = StyleSheet.create({
   main: {
     height: '100%',
     width: '100%',
-  },
-  safe_area: {
-    backgroundColor: 'red',
-    flex: 0,
   },
 });
 
