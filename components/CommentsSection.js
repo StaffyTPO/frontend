@@ -177,7 +177,7 @@ export default class CommentsSection extends Component {
           </Layout>
         ) : (
           <Layout style={styles.spinner}>
-            <Text>Zaenkrat nobenega komentarja</Text>
+            <Text style={styles.noComment}>Ni komentarjev</Text>
           </Layout>
         )}
       </Layout>
@@ -200,5 +200,8 @@ const styles = StyleSheet.create({
   //   },
   spacious: {
     margin: 3,
+  },
+  noComment: {
+    color: '#B7B7B7',
   },
 });

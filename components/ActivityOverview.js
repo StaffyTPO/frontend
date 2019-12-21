@@ -2,7 +2,6 @@ import React, {Component} from 'react';
 import {StyleSheet, ScrollView} from 'react-native';
 import Moment from 'moment';
 
-
 import {
   Layout,
   Text,
@@ -84,7 +83,9 @@ export default class ActivityOverview extends Component {
           <ScrollView>
             <Layout style={styles.activityContainer} level="1">
               <Layout style={styles.activity}>
-                <Text status='primary' category="h5" style={styles.title}>{this.state.aktivnost.naslov}</Text>
+                <Text status="primary" category="h5" style={styles.title}>
+                  {this.state.aktivnost.naslov}
+                </Text>
                 <Layout style={styles.row}>
                   {this.state.aktivnost.prioriteta && (
                     <Tag
@@ -93,13 +94,21 @@ export default class ActivityOverview extends Component {
                     />
                   )}
                   {this.state.aktivnost.prostor && (
-                    <Text style={{ fontWeight: 'bold'}}>{this.state.aktivnost.prostor.naziv}</Text>
+                    <Text style={{fontWeight: 'bold'}}>
+                      {this.state.aktivnost.prostor.naziv}
+                    </Text>
                   )}
                 </Layout>
-                {this.state.aktivnost.koncni_datum && (
-                    <Text style={{marginBottom: 20}}>{Moment(this.state.aktivnost.koncni_datum).format('D MMMM YYYY')}</Text>
-                  )}
-                <Text style={{textAlign: 'justify', marginBottom: 20}}>{this.state.aktivnost.opis}</Text>
+                {this.state.aktivnost.koncni_datum != null && (
+                  <Text style={{marginBottom: 20}}>
+                    {Moment(this.state.aktivnost.koncni_datum).format(
+                      'D MMMM YYYY',
+                    )}
+                  </Text>
+                )}
+                <Text style={{textAlign: 'justify', marginBottom: 20}}>
+                  {this.state.aktivnost.opis}
+                </Text>
                 {this.state.aktivnost.vrsta_sluzbe && (
                   <Text>
                     Zadolžitev: {this.state.aktivnost.vrsta_sluzbe.naziv}
