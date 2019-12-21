@@ -33,6 +33,7 @@ export default class AddNew extends Component {
     koncniRok: '',
     loading: true,
     imageSource: null,
+    uploading: false,
   };
 
   componentDidMount() {
@@ -185,7 +186,46 @@ export default class AddNew extends Component {
           oznacenaVrstaSluzbe: {},
           oznacenaPrioriteta: {},
           koncniRok: '',
+          novaAktivnost: resData.data.dodajAktivnost.id,
         });
+        this.dodajSliko(resData.data.dodajAktivnost.id);
+      })
+      .catch(err => {
+        console.log(err);
+      });
+  };
+
+  dodajSliko = IDAktivnosti => {
+    const requestBody = {
+      query: `
+      mutation {
+        dodajSliko(url:"${this.state.slika}",
+        aktivnost:${Number(IDAktivnosti)}){
+          id
+          url
+          aktivnost
+        }
+      }         
+      `,
+    };
+
+    console.log(requestBody);
+
+    fetch('https://staffy-app.herokuapp.com/graphql', {
+      method: 'POST',
+      body: JSON.stringify(requestBody),
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    })
+      .then(res => {
+        if (res.status !== 200 && res.status !== 201) {
+          throw new Error('Failed!');
+        }
+        return res.json();
+      })
+      .then(resData => {
+        console.log(resData.data);
         Actions.homePage();
       })
       .catch(err => {
@@ -194,10 +234,12 @@ export default class AddNew extends Component {
   };
 
   selectImage = async () => {
+    this.setState({uploading: true});
+
     ImagePicker.showImagePicker(
       {noData: true, mediaType: 'photo'},
       response => {
-        console.log('Response = ', response);
+        // console.log('Response = ', response);
 
         if (response.didCancel) {
           console.log('User cancelled image picker');
@@ -212,7 +254,12 @@ export default class AddNew extends Component {
             imageSource: response.uri,
           });
 
-          uploadImage(response.uri);
+          uploadImage(response.uri, result => {
+            if (result) {
+              console.log(result);
+              this.setState({slika: result, uploading: false});
+            }
+          });
         }
       },
     );
@@ -314,7 +361,11 @@ export default class AddNew extends Component {
                   onPress={this.dodajAktivnost /*&& this.resetImagePicker*/}
                   icon={AddIcon}
                   style={styles.dodajButton}
-                  disabled={!this.state.naslov || !this.state.opis}>
+                  disabled={
+                    !this.state.naslov &&
+                    !this.state.opis &&
+                    this.state.uploading
+                  }>
                   DODAJ NOVO AKTIVNOST
                 </Button>
               </Layout>

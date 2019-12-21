@@ -51,7 +51,7 @@ const App = () => {
             <Scene key="loginSuccess" hideNavBar={true}>
               <Scene component={SecondPage}></Scene>
             </Scene>
-            <Scene key="mainPage" hideNavBar={true}>
+            <Scene key="mainPage" hideNavBar={true} initial={true}>
               <Tabs key="tabbar" tabs={true} tabBarComponent={TabComponent}>
                 <Scene key="home" title="DOMOV">
                   <Scene
