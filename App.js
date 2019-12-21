@@ -48,7 +48,6 @@ const App = () => {
             <Scene key="loginPage" hideNavBar={true}>
               <Scene component={Login}></Scene>
             </Scene>
-
             <Scene key="loginSuccess" hideNavBar={true}>
               <Scene component={SecondPage}></Scene>
             </Scene>

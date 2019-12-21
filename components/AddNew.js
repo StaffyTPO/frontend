@@ -209,6 +209,29 @@ export default class AddNew extends Component {
           this.setState({
             imageSource: response.uri,
           });
+
+          const data = new FormData();
+          data.append('name', 'avatar');
+          data.append('fileData', {
+            uri: response.uri,
+            type: response.type,
+            name: response.fileName,
+          });
+          const config = {
+            method: 'POST',
+            headers: {
+              Accept: 'application/json',
+              'Content-Type': 'multipart/form-data',
+            },
+            body: data,
+          };
+          fetch('http://localhost:5000/' + 'upload', config)
+            .then(checkStatusAndGetJSONResponse => {
+              console.log(checkStatusAndGetJSONResponse);
+            })
+            .catch(err => {
+              console.log(err);
+            });
         }
       },
     );
