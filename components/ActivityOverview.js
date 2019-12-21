@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {StyleSheet, ScrollView} from 'react-native';
+import {StyleSheet, ScrollView, Image} from 'react-native';
 import Moment from 'moment';
 
 import {
@@ -14,16 +14,14 @@ import {
 import {Actions} from 'react-native-router-flux';
 import CommentsSection from './CommentsSection';
 import Tag from './Tag';
-import moment from 'moment';
 
 export default class ActivityOverview extends Component {
   state = {aktivnost: ''};
 
   componentDidMount() {
     this.handleSubmit();
-    console.log(this.state.aktivnost);
+    //console.log(this.state.aktivnost);
   }
-
   handleSubmit = event => {
     const requestBody = {
       query: `
@@ -43,11 +41,16 @@ export default class ActivityOverview extends Component {
                   naziv
                 }
               }
-            }
+              slike(aktivnostId:${this.props.id}) {
+                id
+                url
+                aktivnost
+              }
+            }         
           `,
     };
 
-    // console.log(requestBody);
+    console.log(requestBody);
 
     fetch('https://staffy-app.herokuapp.com/graphql', {
       method: 'POST',
@@ -64,7 +67,6 @@ export default class ActivityOverview extends Component {
       })
       .then(resData => {
         this.setState({aktivnost: resData.data.aktivnostIDja});
-        //console.log(resData.data.aktivnosti[0]);
       })
       .catch(err => {
         console.log(err);
@@ -131,7 +133,6 @@ export default class ActivityOverview extends Component {
     );
   }
 }
-
 const styles = StyleSheet.create({
   container: {
     height: '100%',
