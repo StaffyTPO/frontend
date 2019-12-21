@@ -12,6 +12,8 @@ import {
   Button,
 } from '@ui-kitten/components';
 
+import uploadImage from './Upload';
+
 import {Actions} from 'react-native-router-flux';
 
 import ImagePicker from 'react-native-image-picker';
@@ -209,6 +211,7 @@ export default class AddNew extends Component {
           this.setState({
             imageSource: response.uri,
           });
+          uploadImage(response.uri);
         }
       },
     );
