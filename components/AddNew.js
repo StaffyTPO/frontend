@@ -136,7 +136,8 @@ export default class AddNew extends Component {
         $prostor: Int,
         $prioriteta: Int,
         $vrsta_sluzbe: Int,
-        $koncni_datum: String
+        $koncni_datum: String,
+        $status: Int
         ){
         dodajAktivnost(
           naslov: $naslov,
@@ -145,6 +146,7 @@ export default class AddNew extends Component {
           prioriteta: $prioriteta,
           vrsta_sluzbe: $vrsta_sluzbe,
           koncni_datum: $koncni_datum,
+          status: $status
           podjetje: 1) {
             id
             naslov
@@ -159,6 +161,7 @@ export default class AddNew extends Component {
         prioriteta: Number(this.state.oznacenaPrioriteta.id),
         vrsta_sluzbe: Number(this.state.oznacenaVrstaSluzbe.id),
         koncni_datum: this.state.koncniRok.toString(),
+        status: 2, //avtomatsko nastavi status nove aktivnosti na neopravljeno
       },
     };
 
