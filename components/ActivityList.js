@@ -1,12 +1,13 @@
-import React, {Component} from 'react';
-import {StyleSheet, ScrollView, RefreshControl} from 'react-native';
+import React, { Component } from 'react';
+import { StyleSheet, ScrollView, RefreshControl } from 'react-native';
 
-import {Layout, Text, Spinner} from '@ui-kitten/components';
+import { Layout, Text, Spinner } from '@ui-kitten/components';
 
 import ActivityListItem from './ActivityListItem';
+import { unix } from 'moment';
 
 export default class ActivityList extends Component {
-  state = {refreshing: false};
+  state = { refreshing: false };
 
   componentDidMount() {
     this.handleSubmit();
@@ -35,6 +36,9 @@ export default class ActivityList extends Component {
             name
           }
           koncni_datum
+          slika {
+            url
+          }
         }
       }
       `,
@@ -56,9 +60,7 @@ export default class ActivityList extends Component {
         return res.json();
       })
       .then(resData => {
-        this.setState({activities: resData.data.aktivnosti, refreshing: false});
-        this.setState({slike: resData.data.slike[0], refreshing: false});
-        console.log(resData.data.aktivnosti[0]);
+        this.setState({ activities: resData.data.aktivnosti, refreshing: false });
       })
       .catch(err => {
         console.log(err);
@@ -66,7 +68,7 @@ export default class ActivityList extends Component {
   };
 
   onRefresh = () => {
-    this.setState({refreshing: true});
+    this.setState({ refreshing: true });
     this.handleSubmit();
   };
 
@@ -83,7 +85,6 @@ export default class ActivityList extends Component {
           <Layout style={styles.activityList}>
             {this.state.activities ? ( //tole se uporabi da obstaja nek activities array
               this.state.activities.map((activity, index) => {
-                console.log(activity);
                 //z mapom si pomagamo da array iteriramo na posamezne komponente
                 return (
                   <ActivityListItem
@@ -92,15 +93,15 @@ export default class ActivityList extends Component {
                     prioriteta={activity.prioriteta}
                     komentar={activity.opis}
                     prostor={activity.prostor}
-                    //url={this.state.slike.url}
+                    slika={activity.slika}
                     id={activity.id}></ActivityListItem>
                 );
               })
             ) : (
-              <Layout style={styles.spinner}>
-                <Spinner />
-              </Layout>
-            )}
+                <Layout style={styles.spinner}>
+                  <Spinner />
+                </Layout>
+              )}
           </Layout>
         </ScrollView>
       </Layout>

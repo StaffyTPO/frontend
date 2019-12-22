@@ -1,10 +1,10 @@
-import React, {Component} from 'react';
-import {StyleSheet, TouchableWithoutFeedback} from 'react-native';
+import React, { Component } from 'react';
+import { StyleSheet, TouchableWithoutFeedback, Image } from 'react-native';
 
-import {Layout, Text} from '@ui-kitten/components';
+import { Layout, Text } from '@ui-kitten/components';
 import Tag from './Tag';
 
-import {Actions} from 'react-native-router-flux';
+import { Actions } from 'react-native-router-flux';
 
 export default class ActivityListItem extends Component {
   _onLongPressButton() {
@@ -32,18 +32,26 @@ export default class ActivityListItem extends Component {
               {this.props.prostor && (
                 <Text category="label">{this.props.prostor.naziv}</Text>
               )}
-              {this.props.url && (
+            </Layout>
+            <Layout style={styles.rowJustifyContent}>
+              <Layout>
+                <Text status="primary" category="h5" style={{ fontWeight: 'bold' }}>
+                  {this.props.title}
+                </Text>
+                <Text numberOfLines={2}>{this.props.komentar}</Text>
+              </Layout>
+              {this.props.slika && (
                 <Image
-                  style={{width: 50, height: 50}}
-                  source={{uri: this.props.url}}
+                  style={{ width: 50, height: 50 }}
+                  source={{
+                    uri: this.props.slika.url.replace(
+                      'v1577046263',
+                      'w_100,f_auto',
+                    )
+                  }}
                 />
               )}
-            </Layout>
-            <Layout>
-              <Text status="primary" category="h5" style={{fontWeight: 'bold'}}>
-                {this.props.title}
-              </Text>
-              <Text numberOfLines={2}>{this.props.komentar}</Text>
+
             </Layout>
           </Layout>
         </TouchableWithoutFeedback>
@@ -62,10 +70,17 @@ const styles = StyleSheet.create({
     flexDirection: 'column',
     justifyContent: 'space-between',
     alignItems: 'flex-start',
+    width: '100%'
   },
   row: {
     flexDirection: 'row',
     flexWrap: 'wrap',
     alignItems: 'center',
   },
+  rowJustifyContent: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    width: '100%'
+  }
 });
