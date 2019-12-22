@@ -68,7 +68,7 @@ export default class ActivityOverview extends Component {
       .then(resData => {
         this.setState({
           aktivnost: resData.data.aktivnostIDja,
-          slika: resData.data.slike[0],
+          slika: resData.data.slike,
         });
       })
       .catch(err => {
