@@ -14,6 +14,7 @@ export default function Tag(props) {
     text: {
       color: 'white',
       textTransform: 'uppercase',
+      fontWeight: 'bold',
     },
   });
 

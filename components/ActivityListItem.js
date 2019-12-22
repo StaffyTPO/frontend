@@ -32,6 +32,12 @@ export default class ActivityListItem extends Component {
               {this.props.prostor && (
                 <Text category="label">{this.props.prostor.naziv}</Text>
               )}
+              {this.props.url && (
+                <Image
+                  style={{width: 50, height: 50}}
+                  source={{uri: this.props.url}}
+                />
+              )}
             </Layout>
             <Layout>
               <Text status="primary" category="h5" style={{fontWeight: 'bold'}}>

@@ -66,7 +66,10 @@ export default class ActivityOverview extends Component {
         return res.json();
       })
       .then(resData => {
-        this.setState({aktivnost: resData.data.aktivnostIDja});
+        this.setState({
+          aktivnost: resData.data.aktivnostIDja,
+          slika: resData.data.slike[0],
+        });
       })
       .catch(err => {
         console.log(err);
@@ -115,6 +118,12 @@ export default class ActivityOverview extends Component {
                   <Text>
                     Zadolžitev: {this.state.aktivnost.vrsta_sluzbe.naziv}
                   </Text>
+                )}
+                {this.state.slika && (
+                  <Image
+                    style={{width: 200, height: 200}}
+                    source={{uri: this.state.slika.url}}
+                  />
                 )}
               </Layout>
             </Layout>
