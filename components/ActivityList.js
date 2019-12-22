@@ -86,16 +86,22 @@ export default class ActivityList extends Component {
             {this.state.activities ? ( //tole se uporabi da obstaja nek activities array
               this.state.activities.map((activity, index) => {
                 //z mapom si pomagamo da array iteriramo na posamezne komponente
-                return (
-                  <ActivityListItem
-                    key={index} //uporabimo komponento ter dolocimo propse,
-                    title={activity.naslov} //title se bo uporabil v otroku
-                    prioriteta={activity.prioriteta}
-                    komentar={activity.opis}
-                    prostor={activity.prostor}
-                    slika={activity.slika}
-                    id={activity.id}></ActivityListItem>
-                );
+                try {
+                  //ce je status null, vrne error
+                  if (activity.status.name == 'Neopravljeno')
+                    return (
+                      <ActivityListItem
+                        key={index} //uporabimo komponento ter dolocimo propse,
+                        title={activity.naslov} //title se bo uporabil v otroku
+                        prioriteta={activity.prioriteta}
+                        komentar={activity.opis}
+                        prostor={activity.prostor}
+                        slika={activity.slika}
+                        id={activity.id}></ActivityListItem>
+                    );
+                } catch (error) {
+                  // handle Error
+                }
               })
             ) : (
                 <Layout style={styles.spinner}>
