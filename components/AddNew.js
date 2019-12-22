@@ -362,8 +362,8 @@ export default class AddNew extends Component {
                   icon={AddIcon}
                   style={styles.dodajButton}
                   disabled={
-                    !this.state.naslov &&
-                    !this.state.opis &&
+                    !this.state.naslov ||
+                    !this.state.opis ||
                     this.state.uploading
                   }>
                   DODAJ NOVO AKTIVNOST

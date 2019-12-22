@@ -40,11 +40,9 @@ export default class ActivityOverview extends Component {
                 vrsta_sluzbe {
                   naziv
                 }
-              }
-              slike(aktivnostId:${this.props.id}) {
-                id
-                url
-                aktivnost
+                slika {
+                  url
+                }
               }
             }         
           `,
@@ -68,8 +66,8 @@ export default class ActivityOverview extends Component {
       .then(resData => {
         this.setState({
           aktivnost: resData.data.aktivnostIDja,
-          slika: resData.data.slike[0],
         });
+        // ;
       })
       .catch(err => {
         console.log(err);
@@ -119,10 +117,15 @@ export default class ActivityOverview extends Component {
                     Zadolžitev: {this.state.aktivnost.vrsta_sluzbe.naziv}
                   </Text>
                 )}
-                {this.state.slika && (
+                {this.state.aktivnost.slika && (
                   <Image
                     style={{width: 200, height: 200}}
-                    source={{uri: this.state.slika.url}}
+                    source={{
+                      uri: this.state.aktivnost.slika.url.replace(
+                        'v1577046263',
+                        'w_1000,f_auto',
+                      ),
+                    }}
                   />
                 )}
               </Layout>

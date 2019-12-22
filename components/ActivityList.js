@@ -40,7 +40,7 @@ export default class ActivityList extends Component {
       `,
     };
 
-    console.log(requestBody);
+    // console.log(requestBody);
 
     fetch('https://staffy-app.herokuapp.com/graphql', {
       method: 'POST',
@@ -58,7 +58,7 @@ export default class ActivityList extends Component {
       .then(resData => {
         this.setState({activities: resData.data.aktivnosti, refreshing: false});
         this.setState({slike: resData.data.slike[0], refreshing: false});
-        console.log(resData.data.aktivnosti[0]);
+        // console.log(resData.data.aktivnosti[0]);
       })
       .catch(err => {
         console.log(err);
@@ -83,7 +83,6 @@ export default class ActivityList extends Component {
           <Layout style={styles.activityList}>
             {this.state.activities ? ( //tole se uporabi da obstaja nek activities array
               this.state.activities.map((activity, index) => {
-                console.log(activity);
                 //z mapom si pomagamo da array iteriramo na posamezne komponente
                 return (
                   <ActivityListItem
