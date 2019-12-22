@@ -119,7 +119,7 @@ export default class ActivityOverview extends Component {
                 )}
                 {this.state.aktivnost.slika && (
                   <Image
-                    style={{width: 200, height: 200}}
+                    style={styles.slika}
                     source={{
                       uri: this.state.aktivnost.slika.url.replace(
                         'v1577046263',
@@ -179,5 +179,10 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'center',
     alignItems: 'center',
+  },
+  slika: {
+    width: 200,
+    height: 200,
+    borderRadius: 10,
   },
 });

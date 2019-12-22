@@ -1,13 +1,13 @@
-import React, { Component } from 'react';
-import { StyleSheet, ScrollView, RefreshControl } from 'react-native';
+import React, {Component} from 'react';
+import {StyleSheet, ScrollView, RefreshControl} from 'react-native';
 
-import { Layout, Text, Spinner } from '@ui-kitten/components';
+import {Layout, Text, Spinner} from '@ui-kitten/components';
 
 import ActivityListItem from './ActivityListItem';
-import { unix } from 'moment';
+import {unix} from 'moment';
 
 export default class ActivityList extends Component {
-  state = { refreshing: false };
+  state = {refreshing: false};
 
   componentDidMount() {
     this.handleSubmit();
@@ -60,13 +60,7 @@ export default class ActivityList extends Component {
         return res.json();
       })
       .then(resData => {
-<<<<<<< HEAD
         this.setState({activities: resData.data.aktivnosti, refreshing: false});
-        this.setState({slike: resData.data.slike[0], refreshing: false});
-        // console.log(resData.data.aktivnosti[0]);
-=======
-        this.setState({ activities: resData.data.aktivnosti, refreshing: false });
->>>>>>> e123a8f5f494802ff1ea0afc3bc6c601e1043a8f
       })
       .catch(err => {
         console.log(err);
@@ -74,7 +68,7 @@ export default class ActivityList extends Component {
   };
 
   onRefresh = () => {
-    this.setState({ refreshing: true });
+    this.setState({refreshing: true});
     this.handleSubmit();
   };
 
@@ -110,10 +104,10 @@ export default class ActivityList extends Component {
                 }
               })
             ) : (
-                <Layout style={styles.spinner}>
-                  <Spinner />
-                </Layout>
-              )}
+              <Layout style={styles.spinner}>
+                <Spinner />
+              </Layout>
+            )}
           </Layout>
         </ScrollView>
       </Layout>
