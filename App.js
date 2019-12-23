@@ -15,8 +15,8 @@ import {
   StatusBar,
 } from 'react-native';
 
-import {EvaIconsPack} from '@ui-kitten/eva-icons';
-import {mapping, light as lightTheme, dark as darkTheme} from '@eva-design/eva';
+import { EvaIconsPack } from '@ui-kitten/eva-icons';
+import { mapping, light as lightTheme, dark as darkTheme } from '@eva-design/eva';
 
 import {
   ApplicationProvider,
@@ -26,7 +26,7 @@ import {
   BottomNavigationTab,
   Text,
 } from '@ui-kitten/components';
-import {Router, Scene, Tabs, Stack} from 'react-native-router-flux';
+import { Router, Scene, Tabs, Stack } from 'react-native-router-flux';
 
 import TabComponent from './components/TabComponent';
 
@@ -34,7 +34,8 @@ import ActivityOverview from './components/ActivityOverview';
 import ActivityList from './components/ActivityList';
 import AddNew from './components/AddNew';
 import Login from './components/Login';
-import SecondPage from './components/SecondPage';
+import Profile from './components/Profile';
+import Registration from './components/Registration';
 
 const App = () => {
   return (
@@ -48,6 +49,11 @@ const App = () => {
             <Scene key="loginPage" hideNavBar={true}>
               <Scene component={Login}></Scene>
             </Scene>
+
+            <Scene key="registrationPage" hideNavBar={true}>
+              <Scene component={Registration}></Scene>
+            </Scene>
+
             <Scene key="mainPage" hideNavBar={true}>
               <Tabs key="tabbar" tabs={true} tabBarComponent={TabComponent}>
                 <Scene key="home" title="DOMOV">
@@ -67,6 +73,14 @@ const App = () => {
                     hideNavBar={true}
                     key="addNewPage"
                     component={AddNew}></Scene>
+                </Scene>
+
+                <Scene key="profile" title="PROFIL">
+                  <Scene
+                    initial={true}
+                    hideNavBar={true}
+                    key="goToProfile"
+                    component={Profile}></Scene>
                 </Scene>
               </Tabs>
             </Scene>

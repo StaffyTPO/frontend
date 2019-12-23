@@ -1,5 +1,5 @@
-import React, {Component} from 'react';
-import {StyleSheet} from 'react-native';
+import React, { Component } from 'react';
+import { StyleSheet, ToastAndroid } from 'react-native';
 import Moment from 'moment';
 
 import {
@@ -13,11 +13,11 @@ import {
   Input,
 } from '@ui-kitten/components';
 
-import {Actions} from 'react-native-router-flux';
+import { Actions } from 'react-native-router-flux';
 import CommentsSection from './CommentsSection';
 import Tag from './Tag';
 import moment from 'moment';
-import {AsyncStorage} from 'react-native';
+import { AsyncStorage } from 'react-native';
 
 export default class Login extends Component {
   state = {
@@ -31,7 +31,7 @@ export default class Login extends Component {
       if (result) {
         Actions.replace('mainPage');
       } else {
-        this.setState({auth: true});
+        this.setState({ auth: true });
       }
       // console.log(result);
     });
@@ -78,7 +78,7 @@ export default class Login extends Component {
           );
           Actions.replace('mainPage');
         } else {
-          console.log('napačni podatki');
+          ToastAndroid.show('Invalid e-mail or password.', ToastAndroid.SHORT);
         }
       })
       .catch(err => {
@@ -87,12 +87,16 @@ export default class Login extends Component {
   };
 
   changeText = e => {
-    this.setState({trenutniEmail: e});
+    this.setState({ trenutniEmail: e });
   };
 
   changeTextPassword = e => {
-    this.setState({trenutniPassword: e});
+    this.setState({ trenutniPassword: e });
   };
+
+  registration = e => {
+    Actions.registrationPage();
+  }
 
   render() {
     return (
@@ -117,15 +121,19 @@ export default class Login extends Component {
                   value={this.state.trenutniPassword}
                   style={styles.formItem}
                   onChangeText={this.changeTextPassword}
+                  secureTextEntry={true}
                   placeholder="Geslo"></Input>
                 <Button style={styles.loginButton} onPress={this.login}>
                   LOGIN
                 </Button>
+                <Button style={styles.loginButton} onPress={this.registration}>
+                  REGISTRACIJA
+                </Button>
               </Layout>
             </Layout>
           ) : (
-            <></>
-          )}
+              <></>
+            )}
         </Layout>
       </React.Fragment>
     );
@@ -146,11 +154,11 @@ const styles = StyleSheet.create({
     marginVertical: 15,
     marginHorizontal: 15,
   },
-  formLabel: {marginBottom: 5},
+  formLabel: { marginBottom: 5 },
   formItem: {
     marginBottom: 15,
   },
-  loginText: {marginTop: 20, marginBottom: 30},
+  loginText: { marginTop: 20, marginBottom: 30 },
   center: {
     alignItems: 'center',
   },
