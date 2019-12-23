@@ -44,14 +44,11 @@ const App = () => {
         <StatusBar backgroundColor="white" barStyle="dark-content" />
         <SafeAreaView />
         <Router>
-          <Stack key="root" hideNavBar={true}>
+          <Scene key="root" hideNavBar={true}>
             <Scene key="loginPage" hideNavBar={true}>
               <Scene component={Login}></Scene>
             </Scene>
-            <Scene key="loginSuccess" hideNavBar={true}>
-              <Scene component={SecondPage}></Scene>
-            </Scene>
-            <Scene key="mainPage" hideNavBar={true} initial={true}>
+            <Scene key="mainPage" hideNavBar={true}>
               <Tabs key="tabbar" tabs={true} tabBarComponent={TabComponent}>
                 <Scene key="home" title="DOMOV">
                   <Scene
@@ -73,7 +70,7 @@ const App = () => {
                 </Scene>
               </Tabs>
             </Scene>
-          </Stack>
+          </Scene>
         </Router>
       </ApplicationProvider>
     </React.Fragment>

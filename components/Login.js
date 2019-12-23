@@ -21,88 +21,113 @@ import {AsyncStorage} from 'react-native';
 
 export default class Login extends Component {
   state = {
-    uporabniki: [
-      {
-        id: '0',
-        ime: 'John',
-        geslo: 'Doe',
-        vrstaSluzbeId: 0,
-        podjetjeId: 0,
-      },
-      {
-        id: '1',
-        ime: 'Bojan',
-        geslo: '1234',
-        vrstaSluzbeId: 2,
-        podjetjeId: 1,
-      },
-      {
-        id: '2',
-        ime: 'Cistilka',
-        geslo: 'rada_pucam123',
-        vrstaSluzbeId: 1,
-        podjetjeId: 2,
-      },
-    ],
-    trenutniUporabnikId: '',
+    trenutniEmail: 'petcvek@gmail.com',
+    trenutniPassword: '12345678',
+    auth: false,
   };
 
   componentDidMount() {
-    AsyncStorage.getItem('userId', (err, result) => {
-      this.setState({trenutniUporabnikId: result});
-      this.preveriUporabnika;
+    AsyncStorage.getItem('user', (err, result) => {
+      if (result) {
+        Actions.replace('mainPage');
+      } else {
+        this.setState({auth: true});
+      }
+      // console.log(result);
     });
   }
 
-  //preveri, ce obstaja uporabnik s tem imenom in geslom in vrne njegov index ali -1, ce ne obstaja
-  preveriUporabnika = () => {
-    for (var i = 0; i < this.state.uporabniki.length; i++) {
-      if (this.state.trenutniUporabnikId === this.state.uporabniki[i].id)
-        return true;
-    }
-    return false;
-  };
+  login = event => {
+    const requestBody = {
+      query: `
+      query {
+        registriranUporabnik (email: "${this.state.trenutniEmail}", geslo: "${this.state.trenutniPassword}") {
+          id
+          ime
+          priimek
+          slika
+          telefon
+          email
+          password
+        }
+      }
+      `,
+    };
 
-  //v skupen pomnilnik shrani prijavljenega uporabnika
-  setLoggedUser = () => {
-    if (this.preveriUporabnika) {
-      AsyncStorage.setItem('userId', this.state.trenutniUporabnikId);
-      Actions.loginSuccess();
-    } else {
-      console.log('Failed login.');
-    }
+    // console.log(requestBody);
+
+    fetch('https://staffy-app.herokuapp.com/graphql', {
+      method: 'POST',
+      body: JSON.stringify(requestBody),
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    })
+      .then(res => {
+        if (res.status !== 200 && res.status !== 201) {
+          throw new Error('Failed!');
+        }
+        return res.json();
+      })
+      .then(resData => {
+        if (resData.data.registriranUporabnik) {
+          //v skupen pomnilnik shrani prijavljenega uporabnika
+          AsyncStorage.setItem(
+            'user',
+            JSON.stringify(resData.data.registriranUporabnik),
+          );
+          Actions.replace('mainPage');
+        } else {
+          console.log('napačni podatki');
+        }
+      })
+      .catch(err => {
+        console.log(err);
+      });
   };
 
   changeText = e => {
-    this.setState({trenutniUporabnikId: e});
+    this.setState({trenutniEmail: e});
+  };
+
+  changeTextPassword = e => {
+    this.setState({trenutniPassword: e});
   };
 
   render() {
     return (
-      <Layout style={styles.container} level="3">
-        <Layout style={styles.loginContainer} level="1">
-          <Layout style={styles.login}>
-            <Text style={styles.formLabel} category="label">
-              Uporabniško ime
-            </Text>
-            <Input
-              style={styles.formItem}
-              onChangeText={this.changeText}
-              placeholder="Uporabnisko ime"></Input>
-            <Text style={styles.formLabel} category="label">
-              Geslo
-            </Text>
-            {/* Zaenkrat tut ce ne vness gesla se ne preverja, treba se spremenit da preveri */}
-            <Input
-              style={styles.formItem}
-              onChangeText={this.changeText}
-              placeholder="Geslo"></Input>
-            <Button style={styles.loginButton} onPress={this.setLoggedUser}>
-              LOGIN
-            </Button>
-          </Layout>
+      <React.Fragment>
+        <Layout style={styles.container} level="3">
+          {this.state.auth ? (
+            <Layout style={styles.loginContainer} level="1">
+              <Layout style={styles.login}>
+                <Text style={styles.formLabel} category="label">
+                  Uporabniško ime
+                </Text>
+                <Input
+                  value={this.state.trenutniEmail}
+                  style={styles.formItem}
+                  onChangeText={this.changeText}
+                  placeholder="Uporabnisko ime"></Input>
+                <Text style={styles.formLabel} category="label">
+                  Geslo
+                </Text>
+                {/* Zaenkrat tut ce ne vness gesla se ne preverja, treba se spremenit da preveri */}
+                <Input
+                  value={this.state.trenutniPassword}
+                  style={styles.formItem}
+                  onChangeText={this.changeTextPassword}
+                  placeholder="Geslo"></Input>
+                <Button style={styles.loginButton} onPress={this.login}>
+                  LOGIN
+                </Button>
+              </Layout>
+            </Layout>
+          ) : (
+            <></>
+          )}
         </Layout>
-      </Layout>
+      </React.Fragment>
     );
   }
 }
