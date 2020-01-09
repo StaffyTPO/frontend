@@ -1,23 +1,39 @@
-import React, {Component} from 'react';
-import {StyleSheet, ScrollView, RefreshControl} from 'react-native';
+import React, { Component } from 'react';
+import { StyleSheet, ScrollView, RefreshControl } from 'react-native';
 
-import {Layout, Text, Spinner} from '@ui-kitten/components';
+import { Layout, Text, Spinner } from '@ui-kitten/components';
 
 import ActivityListItem from './ActivityListItem';
-import {unix} from 'moment';
+import { unix } from 'moment';
+import { AsyncStorage } from 'react-native';
+import { Actions } from 'react-native-router-flux';
 
 export default class ActivityList extends Component {
-  state = {refreshing: false};
+  state = {
+    refreshing: false,
+    prijavljenUporabnik: null,
+    vrstaSluzbe: null
+  };
+
+  nastaviPrijavljenegaUporabnika = e => {
+    AsyncStorage.getItem('user', (err, result) => {
+      if (result) {
+        this.setState({ prijavljenUporabnik: JSON.parse(result) });
+        this.vrstaSluzbePrijavljenegaUporabnika();
+      }
+    });
+  }
 
   componentDidMount() {
-    this.handleSubmit();
+    //this.handleSubmit();
+    this.nastaviPrijavljenegaUporabnika();
   }
 
   handleSubmit = event => {
     const requestBody = {
       query: `
       query {
-        aktivnosti (podjetjeId:1){
+        aktivnostiPodaneSluzbe (idSluzbe: ${this.state.vrstaSluzbe}){
           id
           naslov
           opis
@@ -43,8 +59,38 @@ export default class ActivityList extends Component {
       }
       `,
     };
+    fetch('https://staffy-app.herokuapp.com/graphql', {
+      method: 'POST',
+      body: JSON.stringify(requestBody),
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    })
+      .then(res => {
+        if (res.status !== 200 && res.status !== 201) {
+          throw new Error('Failed!');
+        }
+        return res.json();
+      })
+      .then(resData => {
+        this.setState({ activities: resData.data.aktivnostiPodaneSluzbe, refreshing: false });
+        console.log(resData.data.aktivnostiPodaneSluzbe);
+      })
+      .catch(err => {
+        console.log(err);
+      });
+  };
 
-    // console.log(requestBody);
+  vrstaSluzbePrijavljenegaUporabnika = e => {
+    const requestBody = {
+      query: `
+      query {
+        vrstaSluzbeZaposlenegaUporabnika(id_uporabnika:${this.state.prijavljenUporabnik.id}) {
+          vrsta_sluzbe
+        }
+      }
+      `,
+    };
 
     fetch('https://staffy-app.herokuapp.com/graphql', {
       method: 'POST',
@@ -60,7 +106,8 @@ export default class ActivityList extends Component {
         return res.json();
       })
       .then(resData => {
-        this.setState({activities: resData.data.aktivnosti, refreshing: false});
+        this.setState({ vrstaSluzbe: resData.data.vrstaSluzbeZaposlenegaUporabnika.vrsta_sluzbe });
+        this.handleSubmit();
       })
       .catch(err => {
         console.log(err);
@@ -68,7 +115,7 @@ export default class ActivityList extends Component {
   };
 
   onRefresh = () => {
-    this.setState({refreshing: true});
+    this.setState({ refreshing: true });
     this.handleSubmit();
   };
 
@@ -104,10 +151,10 @@ export default class ActivityList extends Component {
                 }
               })
             ) : (
-              <Layout style={styles.spinner}>
-                <Spinner />
-              </Layout>
-            )}
+                <Layout style={styles.spinner}>
+                  <Spinner />
+                </Layout>
+              )}
           </Layout>
         </ScrollView>
       </Layout>
