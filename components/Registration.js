@@ -18,6 +18,7 @@ import {
 export default class Registration extends Component {
 
     state = {
+        id: '',
         ime: '',
         priimek: '',
         email: '',
@@ -126,36 +127,6 @@ export default class Registration extends Component {
 
     registrirajUporabnika = e => {
 
-        //console.log(this.state.izbranoPodjetje.id);
-
-        //addUporabnik(args.ime, args.priimek, args.slika, args.telefon, args.email, args.password, args.podjetje)
-
-        /*
-        const requestBody = {
-            query: `
-            mutation {
-                dodajUporabnika (
-                    ime: "${this.state.ime}",
-                    priimek: "${this.state.priimek}",
-                    slika: "",
-                    telefon: "${this.state.telefonska}",
-                    email: "${this.state.email}", 
-                    geslo: "${this.state.geslo}",
-                    podjetje: "${this.state.izbranoPodjetje.id}"
-                ) {
-                    id
-                    ime
-                    priimek
-                    slika
-                    telefon
-                    email
-                    password
-              }
-            }
-            `,
-        };
-        */
-
         const requestBody = {
             query: `
             mutation DodajAktivnost(
@@ -214,6 +185,85 @@ export default class Registration extends Component {
                 console.log(err);
             });
     }
+
+    registrirajZaposlenega = e => {
+        console.log(this.state.id);
+        console.log(this.state.izbranaVrstaSluzbe.id);
+        const requestBody = {
+            query: `
+                mutation {
+                    dodajZaposlenega(uporabnik_id: "${Number(this.state.id)}", vrstaSluzbe_id: "${this.state.izbranaVrstaSluzbe.id}") {
+                    uporabnik
+                    vrsta_sluzbe
+                    }
+                }          
+            `,
+        };
+
+        fetch('https://staffy-app.herokuapp.com/graphql', {
+            method: 'POST',
+            body: JSON.stringify(requestBody),
+            headers: {
+                'Content-Type': 'application/json',
+            },
+        })
+            .then(res => {
+                if (res.status !== 200 && res.status !== 201) {
+                    throw new Error('Failed!');
+                }
+                return res.json();
+            })
+            .then(resData => {
+                console.log(resData.data);
+            })
+            .catch(err => {
+                console.log(err);
+            });
+    }
+
+    uporabnikov_id = e => {
+        const requestBody = {
+            query: `
+            query {
+              registriranUporabnik (email: "${this.state.email}", geslo: "${this.state.geslo}") {
+                id
+              }
+            }
+            `,
+          };
+      
+          // console.log(requestBody);
+      
+          fetch('https://staffy-app.herokuapp.com/graphql', {
+            method: 'POST',
+            body: JSON.stringify(requestBody),
+            headers: {
+              'Content-Type': 'application/json',
+            },
+          })
+            .then(res => {
+              if (res.status !== 200 && res.status !== 201) {
+                throw new Error('Failed!');
+              }
+              return res.json();
+            })
+            .then(resData => {
+                console.log(resData.data.registriranUporabnik.id)
+                this.setState({
+                    id: resData.data.registriranUporabnik.id
+                });
+            })
+            .catch(err => {
+              console.log(err);
+            });
+    }
+
+    registracija = e => {
+        this.registrirajUporabnika();
+        this.uporabnikov_id();
+        this.registrirajZaposlenega();
+    }
+    
 
     setIme = e => {
         this.setState({ ime: e })
@@ -293,7 +343,7 @@ export default class Registration extends Component {
                                     onChangeText={this.setTelephoneNumber}>
                                 </Input>
                                 <Button
-                                    onPress={this.registrirajUporabnika}>
+                                    onPress={this.registracija}>
                                     REGISTER
                                 </Button>
                             </Layout>
