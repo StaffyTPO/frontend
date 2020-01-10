@@ -1,5 +1,5 @@
-import React, {Component} from 'react';
-import {StyleSheet, Image, TouchableWithoutFeedback} from 'react-native';
+import React, { Component } from 'react';
+import { StyleSheet, Image, TouchableWithoutFeedback } from 'react-native';
 
 import {
   Layout,
@@ -14,10 +14,10 @@ import {
 
 import uploadImage from './Upload';
 
-import {Actions} from 'react-native-router-flux';
-
+import { Actions } from 'react-native-router-flux';
+import { AsyncStorage } from 'react-native';
 import ImagePicker from 'react-native-image-picker';
-import {ScrollView} from 'react-native-gesture-handler';
+import { ScrollView } from 'react-native-gesture-handler';
 
 const CalendarIcon = style => <Icon {...style} name="calendar-outline" />;
 const AddIcon = style => <Icon {...style} name="plus-outline" />;
@@ -34,10 +34,21 @@ export default class AddNew extends Component {
     loading: true,
     imageSource: null,
     uploading: false,
+    prijavljenUporabnik: null
   };
 
+  nastaviPrijavljenegaUporabnika = e => {
+    AsyncStorage.getItem('user', (err, result) => {
+      if (result) {
+        this.setState({ prijavljenUporabnik: JSON.parse(result) });
+        this.handleSubmit();
+        console.log(this.state.prijavljenUporabnik.id);
+      }
+    });
+  }
+
   componentDidMount() {
-    this.handleSubmit();
+    this.nastaviPrijavljenegaUporabnika();
   }
 
   handleSubmit = event => {
@@ -60,8 +71,6 @@ export default class AddNew extends Component {
       `,
     };
 
-    console.log(requestBody);
-
     fetch('https://staffy-app.herokuapp.com/graphql', {
       method: 'POST',
       body: JSON.stringify(requestBody),
@@ -79,9 +88,9 @@ export default class AddNew extends Component {
         let prostori = resData.data.prostori;
         let vrsteSluzbe = resData.data.vrsteSluzbe;
         let prioritete = resData.data.prioritete;
-        prostori = prostori.map(s => ({text: s.naziv, id: s.id}));
-        vrsteSluzbe = vrsteSluzbe.map(s => ({text: s.naziv, id: s.id}));
-        prioritete = prioritete.map(s => ({text: s.tip, id: s.id}));
+        prostori = prostori.map(s => ({ text: s.naziv, id: s.id }));
+        vrsteSluzbe = vrsteSluzbe.map(s => ({ text: s.naziv, id: s.id }));
+        prioritete = prioritete.map(s => ({ text: s.tip, id: s.id }));
         this.setState({
           prostori: prostori,
           vrsteSluzbe: vrsteSluzbe,
@@ -95,22 +104,22 @@ export default class AddNew extends Component {
   };
 
   setSelectedOptionProstor = e => {
-    this.setState({oznacenProstor: e});
+    this.setState({ oznacenProstor: e });
   };
   setSelectedOptionVrstaSluzbe = e => {
-    this.setState({oznacenaVrstaSluzbe: e});
+    this.setState({ oznacenaVrstaSluzbe: e });
   };
   setSelectedOptionPrioriteta = e => {
-    this.setState({oznacenaPrioriteta: e});
+    this.setState({ oznacenaPrioriteta: e });
   };
   setDate = e => {
-    this.setState({koncniRok: e});
+    this.setState({ koncniRok: e });
   };
   setNaslov = e => {
-    this.setState({naslov: e});
+    this.setState({ naslov: e });
   };
   setOpis = e => {
-    this.setState({opis: e});
+    this.setState({ opis: e });
   };
   resetImagePicker = e => {
     this.setState({
@@ -119,14 +128,14 @@ export default class AddNew extends Component {
   };
 
   dodajAktivnost = () => {
-    console.log(
+    /*console.log(
       this.state.naslov,
       this.state.opis,
       this.state.oznacenProstor,
       this.state.oznacenaVrstaSluzbe,
       this.state.oznacenaPrioriteta,
       this.state.koncniRok,
-    );
+    );*/
 
     const requestBody = {
       query: `
@@ -137,7 +146,8 @@ export default class AddNew extends Component {
         $prioriteta: Int,
         $vrsta_sluzbe: Int,
         $koncni_datum: String,
-        $status: Int
+        $status: Int,
+        $uporabnik: Int
         ){
         dodajAktivnost(
           naslov: $naslov,
@@ -146,7 +156,8 @@ export default class AddNew extends Component {
           prioriteta: $prioriteta,
           vrsta_sluzbe: $vrsta_sluzbe,
           koncni_datum: $koncni_datum,
-          status: $status
+          status: $status,
+          uporabnik: $uporabnik
           podjetje: 1) {
             id
             naslov
@@ -162,11 +173,9 @@ export default class AddNew extends Component {
         vrsta_sluzbe: Number(this.state.oznacenaVrstaSluzbe.id),
         koncni_datum: this.state.koncniRok.toString(),
         status: 2, //avtomatsko nastavi status nove aktivnosti na neopravljeno
+        uporabnik: parseInt(this.state.prijavljenUporabnik.id)
       },
     };
-
-    console.log(requestBody);
-
     fetch('https://staffy-app.herokuapp.com/graphql', {
       method: 'POST',
       body: JSON.stringify(requestBody),
@@ -237,10 +246,10 @@ export default class AddNew extends Component {
   };
 
   selectImage = async () => {
-    this.setState({uploading: true});
+    this.setState({ uploading: true });
 
     ImagePicker.showImagePicker(
-      {noData: true, mediaType: 'photo'},
+      { noData: true, mediaType: 'photo' },
       response => {
         // console.log('Response = ', response);
 
@@ -260,7 +269,7 @@ export default class AddNew extends Component {
           uploadImage(response.uri, result => {
             if (result) {
               console.log(result);
-              this.setState({slika: result, uploading: false});
+              this.setState({ slika: result, uploading: false });
             }
           });
         }
@@ -277,103 +286,103 @@ export default class AddNew extends Component {
               <Spinner />
             </Layout>
           ) : (
-            <Layout style={styles.flex}>
-              <ScrollView>
-                <Layout style={styles.form}>
-                  <Text style={styles.formLabel} category="label">
-                    Naslov
+              <Layout style={styles.flex}>
+                <ScrollView>
+                  <Layout style={styles.form}>
+                    <Text style={styles.formLabel} category="label">
+                      Naslov
                   </Text>
-                  <Input
-                    style={styles.formItem}
-                    placeholder="Dodaj naslov aktivnosti"
-                    value={this.state.naslov}
-                    onChangeText={this.setNaslov}
-                  />
-                  <Text style={styles.formLabel} category="label">
-                    Opis
+                    <Input
+                      style={styles.formItem}
+                      placeholder="Dodaj naslov aktivnosti"
+                      value={this.state.naslov}
+                      onChangeText={this.setNaslov}
+                    />
+                    <Text style={styles.formLabel} category="label">
+                      Opis
                   </Text>
-                  <Input
-                    style={styles.formItem}
-                    placeholder="Opiši zakaj je potrebna aktivnost"
-                    value={this.state.opis}
-                    onChangeText={this.setOpis}
-                  />
-                  <Text style={styles.formLabel} category="label">
-                    Prioriteta
+                    <Input
+                      style={styles.formItem}
+                      placeholder="Opiši zakaj je potrebna aktivnost"
+                      value={this.state.opis}
+                      onChangeText={this.setOpis}
+                    />
+                    <Text style={styles.formLabel} category="label">
+                      Prioriteta
                   </Text>
-                  <Select
-                    style={styles.formItem}
-                    data={this.state.prioritete}
-                    selectedOption={this.state.oznacenaPrioriteta}
-                    onSelect={this.setSelectedOptionPrioriteta}></Select>
-                  <Text style={styles.formLabel} category="label">
-                    Prostor
+                    <Select
+                      style={styles.formItem}
+                      data={this.state.prioritete}
+                      selectedOption={this.state.oznacenaPrioriteta}
+                      onSelect={this.setSelectedOptionPrioriteta}></Select>
+                    <Text style={styles.formLabel} category="label">
+                      Prostor
                   </Text>
-                  <Select
-                    style={styles.formItem}
-                    data={this.state.prostori}
-                    selectedOption={this.state.oznacenProstor}
-                    onSelect={this.setSelectedOptionProstor}></Select>
-                  <Text style={styles.formLabel} category="label">
-                    Vrsta službe
+                    <Select
+                      style={styles.formItem}
+                      data={this.state.prostori}
+                      selectedOption={this.state.oznacenProstor}
+                      onSelect={this.setSelectedOptionProstor}></Select>
+                    <Text style={styles.formLabel} category="label">
+                      Vrsta službe
                   </Text>
-                  <Select
-                    style={styles.formItem}
-                    data={this.state.vrsteSluzbe}
-                    selectedOption={this.state.oznacenaVrstaSluzbe}
-                    onSelect={this.setSelectedOptionVrstaSluzbe}></Select>
-                  <Text style={styles.formLabel} category="label">
-                    Končni rok
+                    <Select
+                      style={styles.formItem}
+                      data={this.state.vrsteSluzbe}
+                      selectedOption={this.state.oznacenaVrstaSluzbe}
+                      onSelect={this.setSelectedOptionVrstaSluzbe}></Select>
+                    <Text style={styles.formLabel} category="label">
+                      Končni rok
                   </Text>
-                  <Datepicker
-                    style={styles.formItem}
-                    placeholder="Pick Date"
-                    date={this.state.koncniRok}
-                    onSelect={this.setDate}
-                    icon={CalendarIcon}
-                  />
-                  <Text style={styles.formLabel} category="label">
-                    Slika
+                    <Datepicker
+                      style={styles.formItem}
+                      placeholder="Pick Date"
+                      date={this.state.koncniRok}
+                      onSelect={this.setDate}
+                      icon={CalendarIcon}
+                    />
+                    <Text style={styles.formLabel} category="label">
+                      Slika
                   </Text>
-                  <Layout style={styles.multipleImagesContainer}>
-                    {this.state.imageSource && (
-                      <Image
-                        style={styles.imageContainer}
-                        source={{uri: this.state.imageSource}}></Image>
-                    )}
-                    <TouchableWithoutFeedback onPress={this.selectImage}>
-                      <Layout style={styles.addImageButton}>
-                        <Text
-                          style={styles.addImageButtonText}
-                          appearance="hint">
-                          Dodaj Sliko
+                    <Layout style={styles.multipleImagesContainer}>
+                      {this.state.imageSource && (
+                        <Image
+                          style={styles.imageContainer}
+                          source={{ uri: this.state.imageSource }}></Image>
+                      )}
+                      <TouchableWithoutFeedback onPress={this.selectImage}>
+                        <Layout style={styles.addImageButton}>
+                          <Text
+                            style={styles.addImageButtonText}
+                            appearance="hint">
+                            Dodaj Sliko
                         </Text>
-                        <Icon
-                          name="image-outline"
-                          width={25}
-                          height={25}
-                          fill="#8f9bb3"
-                        />
-                      </Layout>
-                    </TouchableWithoutFeedback>
+                          <Icon
+                            name="image-outline"
+                            width={25}
+                            height={25}
+                            fill="#8f9bb3"
+                          />
+                        </Layout>
+                      </TouchableWithoutFeedback>
+                    </Layout>
                   </Layout>
-                </Layout>
-              </ScrollView>
-              <Layout style={styles.form}>
-                <Button
-                  onPress={this.dodajAktivnost /*&& this.resetImagePicker*/}
-                  icon={AddIcon}
-                  style={styles.dodajButton}
-                  disabled={
-                    !this.state.naslov ||
-                    !this.state.opis ||
-                    this.state.uploading
-                  }>
-                  DODAJ NOVO AKTIVNOST
+                </ScrollView>
+                <Layout style={styles.form}>
+                  <Button
+                    onPress={this.dodajAktivnost /*&& this.resetImagePicker*/}
+                    icon={AddIcon}
+                    style={styles.dodajButton}
+                    disabled={
+                      !this.state.naslov ||
+                      !this.state.opis ||
+                      this.state.uploading
+                    }>
+                    DODAJ NOVO AKTIVNOST
                 </Button>
+                </Layout>
               </Layout>
-            </Layout>
-          )}
+            )}
         </Layout>
       </Layout>
     );
@@ -398,7 +407,7 @@ const styles = StyleSheet.create({
   formItem: {
     marginBottom: 15,
   },
-  formLabel: {marginBottom: 5},
+  formLabel: { marginBottom: 5 },
   spinner: {
     paddingVertical: 20,
     paddingHorizontal: 15,

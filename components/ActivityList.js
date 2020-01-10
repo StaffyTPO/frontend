@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { StyleSheet, ScrollView, RefreshControl } from 'react-native';
 
-import { Layout, Text, Spinner } from '@ui-kitten/components';
+import { Layout, Text, Spinner, Button } from '@ui-kitten/components';
 
 import ActivityListItem from './ActivityListItem';
 import { unix } from 'moment';
@@ -25,11 +25,10 @@ export default class ActivityList extends Component {
   }
 
   componentDidMount() {
-    //this.handleSubmit();
     this.nastaviPrijavljenegaUporabnika();
   }
 
-  handleSubmit = event => {
+  aktivnostiSluzbe = event => {
     const requestBody = {
       query: `
       query {
@@ -74,12 +73,113 @@ export default class ActivityList extends Component {
       })
       .then(resData => {
         this.setState({ activities: resData.data.aktivnostiPodaneSluzbe, refreshing: false });
-        console.log(resData.data.aktivnostiPodaneSluzbe);
       })
       .catch(err => {
         console.log(err);
       });
   };
+
+  aktivnostiUporabnika = e => {
+    const requestBody = {
+      query: `
+      query {
+        aktivnostiUporabnika (idUporabnika: ${this.state.prijavljenUporabnik.id}){
+          id
+          naslov
+          opis
+          prostor {
+            naziv
+          }
+          prioriteta {
+            tip
+            barva
+          }
+          vrsta_sluzbe {
+            naziv
+            barva
+          }
+          status {
+            name
+          }
+          koncni_datum
+          slika {
+            url
+          }
+        }
+      }
+      `,
+    };
+    fetch('https://staffy-app.herokuapp.com/graphql', {
+      method: 'POST',
+      body: JSON.stringify(requestBody),
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    })
+      .then(res => {
+        if (res.status !== 200 && res.status !== 201) {
+          throw new Error('Failed!');
+        }
+        return res.json();
+      })
+      .then(resData => {
+        this.setState({ activities: resData.data.aktivnostiUporabnika, refreshing: false });
+      })
+      .catch(err => {
+        console.log(err);
+      });
+  }
+
+  vseAktivnostiVPodjetju = e => {
+    const requestBody = {
+      query: `
+      query {
+        aktivnosti (podjetjeId: ${this.state.prijavljenUporabnik.podjetje}){
+          id
+          naslov
+          opis
+          prostor {
+            naziv
+          }
+          prioriteta {
+            tip
+            barva
+          }
+          vrsta_sluzbe {
+            naziv
+            barva
+          }
+          status {
+            name
+          }
+          koncni_datum
+          slika {
+            url
+          }
+        }
+      }
+      `,
+    };
+    fetch('https://staffy-app.herokuapp.com/graphql', {
+      method: 'POST',
+      body: JSON.stringify(requestBody),
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    })
+      .then(res => {
+        if (res.status !== 200 && res.status !== 201) {
+          throw new Error('Failed!');
+        }
+        return res.json();
+      })
+      .then(resData => {
+        this.setState({ activities: resData.data.aktivnosti, refreshing: false });
+      })
+      .catch(err => {
+        console.log(err);
+      });
+  }
 
   vrstaSluzbePrijavljenegaUporabnika = e => {
     const requestBody = {
@@ -107,7 +207,7 @@ export default class ActivityList extends Component {
       })
       .then(resData => {
         this.setState({ vrstaSluzbe: resData.data.vrstaSluzbeZaposlenegaUporabnika.vrsta_sluzbe });
-        this.handleSubmit();
+        this.aktivnostiSluzbe();
       })
       .catch(err => {
         console.log(err);
@@ -116,7 +216,7 @@ export default class ActivityList extends Component {
 
   onRefresh = () => {
     this.setState({ refreshing: true });
-    this.handleSubmit();
+    this.aktivnostiSluzbe();
   };
 
   render() {
@@ -130,6 +230,11 @@ export default class ActivityList extends Component {
             />
           }>
           <Layout style={styles.activityList}>
+            <Layout style={styles.inlineButtons}>
+              <Button onPress={this.aktivnostiSluzbe}>Tagged</Button>
+              <Button onPress={this.aktivnostiUporabnika}>Your posts</Button>
+              <Button onPress={this.vseAktivnostiVPodjetju}>All posts</Button>
+            </Layout>
             {this.state.activities ? ( //tole se uporabi da obstaja nek activities array
               this.state.activities.map((activity, index) => {
                 //z mapom si pomagamo da array iteriramo na posamezne komponente
@@ -181,4 +286,9 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
   },
+  inlineButtons: {
+    flex: 1,
+    flexDirection: "row",
+    justifyContent: "center"
+  }
 });

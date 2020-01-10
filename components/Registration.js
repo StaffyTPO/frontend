@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { StyleSheet, Image } from 'react-native';
+import { StyleSheet, Image, ToastAndroid } from 'react-native';
 import { Actions } from 'react-native-router-flux';
 
 import {
@@ -14,6 +14,7 @@ import {
     TopNavigationAction,
     Button,
 } from '@ui-kitten/components';
+import { AsyncStorage } from 'react-native';
 
 export default class Registration extends Component {
 
@@ -26,7 +27,8 @@ export default class Registration extends Component {
         telefonska: '',
         izbranoPodjetje: '',
         izbranaVrstaSluzbe: '',
-        loading: true
+        loading: true,
+        uporabnik_JSON: ""
     };
 
     componentDidMount() {
@@ -163,20 +165,30 @@ export default class Registration extends Component {
                 return res.json();
             })
             .then(resData => {
-                console.log(resData.data);
+                AsyncStorage.setItem(
+                    'user',
+                    JSON.stringify(this.state.uporabnik_JSON),
+                );
+                Actions.replace('mainPage');
             })
             .catch(err => {
                 console.log(err);
             });
     }
 
-    //Vrne id pravkar registriranega uporabnika
+    //Nastavi id pravkar registriranega uporabnika
     uporabnikov_id = e => {
         const requestBody = {
             query: `
             query {
               registriranUporabnik (email: "${this.state.email}", geslo: "${this.state.geslo}") {
                 id
+                ime
+                priimek
+                email
+                password
+                podjetje
+                telefon
               }
             }
             `,
@@ -197,8 +209,10 @@ export default class Registration extends Component {
             })
             .then(resData => {
                 this.setState({
-                    id: resData.data.registriranUporabnik.id
+                    id: resData.data.registriranUporabnik.id,
+                    uporabnik_JSON: resData.data.registriranUporabnik
                 });
+                console.log(this.state.uporabnik_JSON);
                 this.registrirajZaposlenega();
             })
             .catch(err => {
@@ -260,12 +274,24 @@ export default class Registration extends Component {
                 return res.json();
             })
             .then(resData => {
-                //console.log(resData.data);
                 this.uporabnikov_id();
             })
             .catch(err => {
                 console.log(err);
             });
+    }
+
+    preveriVpisanePodatke = e => {
+        var ustrezno = false;
+        if (this.state.ime.length >= 1 && this.state.priimek.length >= 1 && this.state.email.length >= 7 && this.state.geslo.length >= 6 &&
+            this.state.izbranoPodjetje != "" && this.state.izbranaVrstaSluzbe != "")
+            ustrezno = true;
+
+        if (ustrezno) {
+            this.registrirajUporabnika();
+        } else {
+            ToastAndroid.show('Invalid user information.', ToastAndroid.SHORT);
+        }
     }
 
     setIme = e => {
@@ -346,7 +372,7 @@ export default class Registration extends Component {
                                     onChangeText={this.setTelephoneNumber}>
                                 </Input>
                                 <Button
-                                    onPress={this.registrirajUporabnika}>
+                                    onPress={this.preveriVpisanePodatke}>
                                     REGISTER
                                 </Button>
                             </Layout>

@@ -1,6 +1,6 @@
 import React from 'react';
-import {StyleSheet} from 'react-native';
-import {Layout, Text, Avatar} from '@ui-kitten/components';
+import { StyleSheet } from 'react-native';
+import { Layout, Text, Avatar } from '@ui-kitten/components';
 
 export default function Comment(props) {
   const styles = StyleSheet.create({
@@ -35,11 +35,11 @@ export default function Comment(props) {
   return (
     <Layout style={styles.container}>
       <Layout style={styles.row}>
-        <Avatar
+        {props.uporabnik.slika != "" && (<Avatar
           size="small"
           style={styles.avatar}
-          source={{uri: props.uporabnik.slika}}
-        />
+          source={{ uri: props.uporabnik.slika }}
+        />)}
         <Layout style={styles.desnaStran}>
           <Layout style={styles.rowFlex}>
             <Text category="s1" style={styles.marginRight}>

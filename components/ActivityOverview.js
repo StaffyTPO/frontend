@@ -1,5 +1,5 @@
-import React, {Component} from 'react';
-import {StyleSheet, ScrollView, Image} from 'react-native';
+import React, { Component } from 'react';
+import { StyleSheet, ScrollView, Image } from 'react-native';
 import Moment from 'moment';
 
 import {
@@ -11,16 +11,15 @@ import {
   Spinner,
 } from '@ui-kitten/components';
 
-import {Actions} from 'react-native-router-flux';
+import { Actions } from 'react-native-router-flux';
 import CommentsSection from './CommentsSection';
 import Tag from './Tag';
 
 export default class ActivityOverview extends Component {
-  state = {aktivnost: ''};
+  state = { aktivnost: '' };
 
   componentDidMount() {
     this.handleSubmit();
-    //console.log(this.state.aktivnost);
   }
   handleSubmit = event => {
     const requestBody = {
@@ -47,8 +46,6 @@ export default class ActivityOverview extends Component {
             }         
           `,
     };
-
-    console.log(requestBody);
 
     fetch('https://staffy-app.herokuapp.com/graphql', {
       method: 'POST',
@@ -97,19 +94,19 @@ export default class ActivityOverview extends Component {
                     />
                   )}
                   {this.state.aktivnost.prostor && (
-                    <Text style={{fontWeight: 'bold'}}>
+                    <Text style={{ fontWeight: 'bold' }}>
                       {this.state.aktivnost.prostor.naziv}
                     </Text>
                   )}
                 </Layout>
                 {this.state.aktivnost.koncni_datum != null && (
-                  <Text style={{marginBottom: 20}}>
+                  <Text style={{ marginBottom: 20 }}>
                     {Moment(this.state.aktivnost.koncni_datum).format(
                       'D MMMM YYYY',
                     )}
                   </Text>
                 )}
-                <Text style={{textAlign: 'justify', marginBottom: 20}}>
+                <Text style={{ textAlign: 'justify', marginBottom: 20 }}>
                   {this.state.aktivnost.opis}
                 </Text>
                 {this.state.aktivnost.vrsta_sluzbe && (
@@ -137,10 +134,10 @@ export default class ActivityOverview extends Component {
             </Layout>
           </ScrollView>
         ) : (
-          <Layout style={styles.spinner}>
-            <Spinner />
-          </Layout>
-        )}
+            <Layout style={styles.spinner}>
+              <Spinner />
+            </Layout>
+          )}
       </Layout>
     );
   }

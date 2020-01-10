@@ -17,10 +17,17 @@ import {
 export default class AddNew extends Component {
 
     logOut = () => {
-        AsyncStorage.setItem( //najprej pobrisemo prijavljenega uporabnika iz pomnilnika
-            'user', "",
-        );
-        Actions.replace('loginPage'); //skocimo na login page
+
+        AsyncStorage.getItem('user', (err, result) => {
+            if (result) {
+                var user = JSON.parse(result);
+                user.password = "";
+                AsyncStorage.setItem( //najprej pobrisemo prijavljenega uporabnika iz pomnilnika
+                    'user', JSON.stringify(user),
+                );
+                Actions.replace('loginPage'); //skocimo na login page
+            }
+        });
     }
 
     render() {
