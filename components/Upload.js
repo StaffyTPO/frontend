@@ -12,12 +12,12 @@ export default uploadImage = (uri, callback) => {
   let xhr = new XMLHttpRequest();
   xhr.open('POST', upload_url);
   xhr.onload = () => {
-    console.log(xhr.responseHeaders.Status);
-    console.log(JSON.parse(xhr._response).url);
+    //console.log(xhr.responseHeaders.Status);
+    //console.log(JSON.parse(xhr._response).url);
     callback(JSON.parse(xhr._response).url);
   };
   let formdata = new FormData();
-  formdata.append('file', {uri: uri, type: 'image/png', name: 'upload.png'});
+  formdata.append('file', { uri: uri, type: 'image/png', name: 'upload.png' });
   formdata.append('timestamp', timestamp);
   formdata.append('api_key', api_key);
   formdata.append('signature', signature);

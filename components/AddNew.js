@@ -42,7 +42,6 @@ export default class AddNew extends Component {
       if (result) {
         this.setState({ prijavljenUporabnik: JSON.parse(result) });
         this.handleSubmit();
-        console.log(this.state.prijavljenUporabnik.id);
       }
     });
   }
@@ -128,15 +127,6 @@ export default class AddNew extends Component {
   };
 
   dodajAktivnost = () => {
-    /*console.log(
-      this.state.naslov,
-      this.state.opis,
-      this.state.oznacenProstor,
-      this.state.oznacenaVrstaSluzbe,
-      this.state.oznacenaPrioriteta,
-      this.state.koncniRok,
-    );*/
-
     const requestBody = {
       query: `
       mutation DodajAktivnost(
@@ -190,7 +180,6 @@ export default class AddNew extends Component {
         return res.json();
       })
       .then(resData => {
-        console.log(resData.data);
         this.setState({
           naslov: '',
           opis: '',
@@ -220,9 +209,6 @@ export default class AddNew extends Component {
       }         
       `,
     };
-
-    console.log(requestBody);
-
     fetch('https://staffy-app.herokuapp.com/graphql', {
       method: 'POST',
       body: JSON.stringify(requestBody),
@@ -237,7 +223,6 @@ export default class AddNew extends Component {
         return res.json();
       })
       .then(resData => {
-        console.log(resData.data);
         Actions.homePage();
       })
       .catch(err => {
@@ -251,8 +236,6 @@ export default class AddNew extends Component {
     ImagePicker.showImagePicker(
       { noData: true, mediaType: 'photo' },
       response => {
-        // console.log('Response = ', response);
-
         if (response.didCancel) {
           console.log('User cancelled image picker');
         } else if (response.error) {
@@ -268,7 +251,6 @@ export default class AddNew extends Component {
 
           uploadImage(response.uri, result => {
             if (result) {
-              console.log(result);
               this.setState({ slika: result, uploading: false });
             }
           });

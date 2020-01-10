@@ -212,7 +212,6 @@ export default class Registration extends Component {
                     id: resData.data.registriranUporabnik.id,
                     uporabnik_JSON: resData.data.registriranUporabnik
                 });
-                console.log(this.state.uporabnik_JSON);
                 this.registrirajZaposlenega();
             })
             .catch(err => {

@@ -9,11 +9,13 @@ import {
   TopNavigation,
   TopNavigationAction,
   Spinner,
+  Button
 } from '@ui-kitten/components';
 
 import { Actions } from 'react-native-router-flux';
 import CommentsSection from './CommentsSection';
 import Tag from './Tag';
+import ActivityList from './ActivityList';
 
 export default class ActivityOverview extends Component {
   state = { aktivnost: '' };
@@ -26,6 +28,7 @@ export default class ActivityOverview extends Component {
       query: `
             query {
               aktivnostIDja(aktivnostId:${this.props.id}) {
+                id
                 naslov
                 opis
                 prostor {
@@ -70,6 +73,61 @@ export default class ActivityOverview extends Component {
         console.log(err);
       });
   };
+
+  aktivnostOpravljena = e => {
+    const body = {
+      query: `
+          mutation OpraviAktivnost(
+              $aktivnostId: Int
+              ){
+                opravljenaAktivnost(
+                aktivnostId: $aktivnostId,
+              ){
+                naslov
+                opis
+                prostor {
+                  naziv
+                }
+                prioriteta{
+                  tip
+                  barva
+                }
+                koncni_datum
+                vrsta_sluzbe {
+                  naziv
+                }
+                slika {
+                  url
+                }
+              }
+          }
+          `,
+      variables: {
+        aktivnostId: parseInt(this.state.aktivnost.id)
+      },
+    }
+
+    fetch('https://staffy-app.herokuapp.com/graphql', {
+      method: 'POST',
+      body: JSON.stringify(body),
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    })
+      .then(res => {
+        if (res.status !== 200 && res.status !== 201) {
+          throw new Error('Failed!');
+        }
+        return res.json();
+      })
+      .then(resData => {
+        console.log(resData);
+        this.props.navigation.goBack();
+      })
+      .catch(err => {
+        console.log(err);
+      });
+  }
 
   render() {
     const BackIcon = style => <Icon {...style} name="arrow-back" />;
@@ -127,6 +185,7 @@ export default class ActivityOverview extends Component {
                 )}
               </Layout>
             </Layout>
+            <Button onPress={this.aktivnostOpravljena}>Opravljeno</Button>
             <Layout style={styles.activityContainer} level="1">
               <Layout style={styles.activity}>
                 <CommentsSection idAktivnosti={this.props.id} />

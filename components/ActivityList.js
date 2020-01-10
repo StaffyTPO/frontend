@@ -12,7 +12,8 @@ export default class ActivityList extends Component {
   state = {
     refreshing: false,
     prijavljenUporabnik: null,
-    vrstaSluzbe: null
+    vrstaSluzbe: null,
+    trenutnaStran: "aktivnosti_sluzbe"
   };
 
   nastaviPrijavljenegaUporabnika = e => {
@@ -72,7 +73,11 @@ export default class ActivityList extends Component {
         return res.json();
       })
       .then(resData => {
-        this.setState({ activities: resData.data.aktivnostiPodaneSluzbe, refreshing: false });
+        this.setState({
+          activities: resData.data.aktivnostiPodaneSluzbe,
+          refreshing: false,
+          trenutnaStran: "aktivnosti_sluzbe"
+        });
       })
       .catch(err => {
         console.log(err);
@@ -123,7 +128,11 @@ export default class ActivityList extends Component {
         return res.json();
       })
       .then(resData => {
-        this.setState({ activities: resData.data.aktivnostiUporabnika, refreshing: false });
+        this.setState({
+          activities: resData.data.aktivnostiUporabnika,
+          refreshing: false,
+          trenutnaStran: "aktivnosti_uporabnika"
+        });
       })
       .catch(err => {
         console.log(err);
@@ -174,7 +183,11 @@ export default class ActivityList extends Component {
         return res.json();
       })
       .then(resData => {
-        this.setState({ activities: resData.data.aktivnosti, refreshing: false });
+        this.setState({
+          activities: resData.data.aktivnosti,
+          refreshing: false,
+          trenutnaStran: "aktivnosti_podjetja"
+        });
       })
       .catch(err => {
         console.log(err);
@@ -216,7 +229,12 @@ export default class ActivityList extends Component {
 
   onRefresh = () => {
     this.setState({ refreshing: true });
-    this.aktivnostiSluzbe();
+    if (this.state.trenutnaStran == "aktivnosti_uporabnika")
+      this.aktivnostiUporabnika();
+    else if (this.state.trenutnaStran == "aktivnosti_sluzbe")
+      this.aktivnostiSluzbe();
+    else
+      this.vseAktivnostiVPodjetju();
   };
 
   render() {

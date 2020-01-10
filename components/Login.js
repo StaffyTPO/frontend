@@ -27,18 +27,15 @@ export default class Login extends Component {
   };
 
   componentDidMount() {
-    console.log("hey");
     AsyncStorage.getItem('user', (err, result) => {
       if (result) {
         result = JSON.parse(result);
         if (result.password != "") {
-          console.log(result);
           this.setState({ prijavljenUporabnik: result });
           this.setState({
             trenutniEmail: this.state.prijavljenUporabnik.email,
             trenutniPassword: this.state.prijavljenUporabnik.password
           });
-          console.log(this.state);
           Actions.replace('mainPage');
         } else {
           this.setState({ trenutniEmail: result.email });
@@ -67,8 +64,6 @@ export default class Login extends Component {
       }
       `,
     };
-
-    // console.log(requestBody);
 
     fetch('https://staffy-app.herokuapp.com/graphql', {
       method: 'POST',
