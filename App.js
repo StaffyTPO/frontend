@@ -15,8 +15,8 @@ import {
   StatusBar,
 } from 'react-native';
 
-import { EvaIconsPack } from '@ui-kitten/eva-icons';
-import { mapping, light as lightTheme, dark as darkTheme } from '@eva-design/eva';
+import {EvaIconsPack} from '@ui-kitten/eva-icons';
+import {mapping, light as lightTheme, dark as darkTheme} from '@eva-design/eva';
 
 import {
   ApplicationProvider,
@@ -26,7 +26,7 @@ import {
   BottomNavigationTab,
   Text,
 } from '@ui-kitten/components';
-import { Router, Scene, Tabs, Stack } from 'react-native-router-flux';
+import {Router, Scene, Tabs, Stack} from 'react-native-router-flux';
 
 import TabComponent from './components/TabComponent';
 

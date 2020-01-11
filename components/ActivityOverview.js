@@ -1,5 +1,5 @@
-import React, { Component } from 'react';
-import { StyleSheet, ScrollView, Image } from 'react-native';
+import React, {Component} from 'react';
+import {StyleSheet, ScrollView, Image} from 'react-native';
 import Moment from 'moment';
 
 import {
@@ -9,16 +9,16 @@ import {
   TopNavigation,
   TopNavigationAction,
   Spinner,
-  Button
+  Button,
 } from '@ui-kitten/components';
 
-import { Actions } from 'react-native-router-flux';
+import {Actions} from 'react-native-router-flux';
 import CommentsSection from './CommentsSection';
 import Tag from './Tag';
 import ActivityList from './ActivityList';
 
 export default class ActivityOverview extends Component {
-  state = { aktivnost: '' };
+  state = {aktivnost: ''};
 
   componentDidMount() {
     this.handleSubmit();
@@ -103,9 +103,9 @@ export default class ActivityOverview extends Component {
           }
           `,
       variables: {
-        aktivnostId: parseInt(this.state.aktivnost.id)
+        aktivnostId: parseInt(this.state.aktivnost.id),
       },
-    }
+    };
 
     fetch('https://staffy-app.herokuapp.com/graphql', {
       method: 'POST',
@@ -121,24 +121,46 @@ export default class ActivityOverview extends Component {
         return res.json();
       })
       .then(resData => {
-        console.log(resData);
-        this.props.navigation.goBack();
+        //console.log(resData);
+        //this.props.navigation.goBack();
+        Actions.replace('homePage');
       })
       .catch(err => {
         console.log(err);
       });
-  }
+  };
+
+  handleBackPress = () => {
+    console.log('DELUJE!');
+    Actions.replace('homePage');
+  };
 
   render() {
     const BackIcon = style => <Icon {...style} name="arrow-back" />;
     const BackAction = () => (
-      <TopNavigationAction onPress={() => Actions.pop()} icon={BackIcon} />
+      <TopNavigationAction
+        onPress={() => Actions.replace('homePage')}
+        icon={BackIcon}
+      />
     );
     return (
       <Layout style={styles.container} level="3">
         <TopNavigation leftControl={BackAction()} title="Back" />
         {this.state.aktivnost ? (
           <ScrollView>
+            <Layout style={styles.activityContainer} level="1">
+              {this.state.aktivnost.slika && (
+                <Image
+                  style={styles.slika}
+                  source={{
+                    uri: this.state.aktivnost.slika.url.replace(
+                      'v1577046263',
+                      'w_1000,f_auto',
+                    ),
+                  }}
+                />
+              )}
+            </Layout>
             <Layout style={styles.activityContainer} level="1">
               <Layout style={styles.activity}>
                 <Text status="primary" category="h5" style={styles.title}>
@@ -152,19 +174,19 @@ export default class ActivityOverview extends Component {
                     />
                   )}
                   {this.state.aktivnost.prostor && (
-                    <Text style={{ fontWeight: 'bold' }}>
+                    <Text style={{fontWeight: 'bold'}}>
                       {this.state.aktivnost.prostor.naziv}
                     </Text>
                   )}
                 </Layout>
                 {this.state.aktivnost.koncni_datum != null && (
-                  <Text style={{ marginBottom: 20 }}>
+                  <Text style={{marginBottom: 20}}>
                     {Moment(this.state.aktivnost.koncni_datum).format(
                       'D MMMM YYYY',
                     )}
                   </Text>
                 )}
-                <Text style={{ textAlign: 'justify', marginBottom: 20 }}>
+                <Text style={{textAlign: 'justify', marginBottom: 20}}>
                   {this.state.aktivnost.opis}
                 </Text>
                 {this.state.aktivnost.vrsta_sluzbe && (
@@ -172,20 +194,11 @@ export default class ActivityOverview extends Component {
                     Zadolžitev: {this.state.aktivnost.vrsta_sluzbe.naziv}
                   </Text>
                 )}
-                {this.state.aktivnost.slika && (
-                  <Image
-                    style={styles.slika}
-                    source={{
-                      uri: this.state.aktivnost.slika.url.replace(
-                        'v1577046263',
-                        'w_1000,f_auto',
-                      ),
-                    }}
-                  />
-                )}
               </Layout>
             </Layout>
-            <Button onPress={this.aktivnostOpravljena}>Opravljeno</Button>
+            <Layout style={styles.activityContainer} level="1">
+              <Button onPress={this.aktivnostOpravljena}>OPRAVLJENO ✔</Button>
+            </Layout>
             <Layout style={styles.activityContainer} level="1">
               <Layout style={styles.activity}>
                 <CommentsSection idAktivnosti={this.props.id} />
@@ -193,10 +206,10 @@ export default class ActivityOverview extends Component {
             </Layout>
           </ScrollView>
         ) : (
-            <Layout style={styles.spinner}>
-              <Spinner />
-            </Layout>
-          )}
+          <Layout style={styles.spinner}>
+            <Spinner />
+          </Layout>
+        )}
       </Layout>
     );
   }
@@ -237,8 +250,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   slika: {
-    width: 200,
-    height: 200,
-    borderRadius: 10,
+    resizeMode: 'cover',
+    height: 300,
   },
 });

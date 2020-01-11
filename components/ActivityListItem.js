@@ -16,9 +16,10 @@ export default class ActivityListItem extends Component {
       <React.Fragment>
         <TouchableWithoutFeedback
           onPress={() =>
-            Actions.activityOverview({
-              id: this.props.id,
-            })
+            //Actions.activityOverview({
+            //id: this.props.id,
+            //})
+            Actions.replace('activityOverview', {id: this.props.id})
           }
           onLongPress={this._onLongPressButton}>
           <Layout style={styles.container} level="1">
@@ -41,7 +42,9 @@ export default class ActivityListItem extends Component {
                   style={{fontWeight: 'bold'}}>
                   {this.props.title}
                 </Text>
-                <Text numberOfLines={2}>{this.props.komentar}</Text>
+                <Layout style={styles.okvir}>
+                  <Text numberOfLines={2}>{this.props.komentar}</Text>
+                </Layout>
               </Layout>
               {this.props.slika && (
                 <Image
@@ -73,6 +76,9 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     alignItems: 'flex-start',
     width: '100%',
+  },
+  okvir: {
+    width: '85%',
   },
   row: {
     flexDirection: 'row',

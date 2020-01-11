@@ -1,5 +1,5 @@
-import React, { Component } from 'react';
-import { StyleSheet, Image, TouchableWithoutFeedback } from 'react-native';
+import React, {Component} from 'react';
+import {StyleSheet, Image, TouchableWithoutFeedback} from 'react-native';
 
 import {
   Layout,
@@ -13,10 +13,9 @@ import {
 } from '@ui-kitten/components';
 
 import Comment from './Comment';
-import { AsyncStorage } from 'react-native';
+import {AsyncStorage} from 'react-native';
 
 export default class CommentsSection extends Component {
-
   state = {
     loading: true,
     novKomentar: '',
@@ -27,10 +26,10 @@ export default class CommentsSection extends Component {
   nastaviPrijavljenegaUporabnika = e => {
     AsyncStorage.getItem('user', (err, result) => {
       if (result) {
-        this.setState({ prijavljenUporabnik: JSON.parse(result) });
+        this.setState({prijavljenUporabnik: JSON.parse(result)});
       }
     });
-  }
+  };
 
   componentDidMount() {
     this.nastaviPrijavljenegaUporabnika();
@@ -87,7 +86,7 @@ export default class CommentsSection extends Component {
   }
 
   dodajKomentar = () => {
-    this.setState({ posilja: true });
+    this.setState({posilja: true});
     const requestBody = {
       query: `
       mutation DodajKomentar(
@@ -152,7 +151,7 @@ export default class CommentsSection extends Component {
   };
 
   spremeniKomentar = e => {
-    this.setState({ novKomentar: e });
+    this.setState({novKomentar: e});
   };
 
   render() {
@@ -166,7 +165,7 @@ export default class CommentsSection extends Component {
           onChangeText={this.spremeniKomentar}
           style={styles.spacious}></Input>
         <Button onPress={this.dodajKomentar} style={styles.spacious}>
-          Objavi komentar
+          OBJAVI KOMENTAR
         </Button>
 
         {/* prikazi vse komentarje za neko aktivnost, urejeni po nastanku, zadnje dodani je najvisje */}
@@ -187,10 +186,10 @@ export default class CommentsSection extends Component {
             <Spinner />
           </Layout>
         ) : (
-              <Layout style={styles.spinner}>
-                <Text style={styles.noComment}>Ni komentarjev</Text>
-              </Layout>
-            )}
+          <Layout style={styles.spinner}>
+            <Text style={styles.noComment}>Ni komentarjev</Text>
+          </Layout>
+        )}
       </Layout>
     );
   }

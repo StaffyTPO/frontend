@@ -1,29 +1,29 @@
-import React, { Component } from 'react';
-import { StyleSheet, ScrollView, RefreshControl } from 'react-native';
+import React, {Component} from 'react';
+import {StyleSheet, ScrollView, RefreshControl} from 'react-native';
 
-import { Layout, Text, Spinner, Button } from '@ui-kitten/components';
+import {Layout, Text, Spinner, Button} from '@ui-kitten/components';
 
 import ActivityListItem from './ActivityListItem';
-import { unix } from 'moment';
-import { AsyncStorage } from 'react-native';
-import { Actions } from 'react-native-router-flux';
+import {unix} from 'moment';
+import {AsyncStorage, View} from 'react-native';
+import {Actions} from 'react-native-router-flux';
 
 export default class ActivityList extends Component {
   state = {
     refreshing: false,
     prijavljenUporabnik: null,
     vrstaSluzbe: null,
-    trenutnaStran: "aktivnosti_sluzbe"
+    trenutnaStran: 'aktivnosti_sluzbe',
   };
 
   nastaviPrijavljenegaUporabnika = e => {
     AsyncStorage.getItem('user', (err, result) => {
       if (result) {
-        this.setState({ prijavljenUporabnik: JSON.parse(result) });
+        this.setState({prijavljenUporabnik: JSON.parse(result)});
         this.vrstaSluzbePrijavljenegaUporabnika();
       }
     });
-  }
+  };
 
   componentDidMount() {
     this.nastaviPrijavljenegaUporabnika();
@@ -76,7 +76,7 @@ export default class ActivityList extends Component {
         this.setState({
           activities: resData.data.aktivnostiPodaneSluzbe,
           refreshing: false,
-          trenutnaStran: "aktivnosti_sluzbe"
+          trenutnaStran: 'aktivnosti_sluzbe',
         });
       })
       .catch(err => {
@@ -131,13 +131,13 @@ export default class ActivityList extends Component {
         this.setState({
           activities: resData.data.aktivnostiUporabnika,
           refreshing: false,
-          trenutnaStran: "aktivnosti_uporabnika"
+          trenutnaStran: 'aktivnosti_uporabnika',
         });
       })
       .catch(err => {
         console.log(err);
       });
-  }
+  };
 
   vseAktivnostiVPodjetju = e => {
     const requestBody = {
@@ -186,13 +186,13 @@ export default class ActivityList extends Component {
         this.setState({
           activities: resData.data.aktivnosti,
           refreshing: false,
-          trenutnaStran: "aktivnosti_podjetja"
+          trenutnaStran: 'aktivnosti_podjetja',
         });
       })
       .catch(err => {
         console.log(err);
       });
-  }
+  };
 
   vrstaSluzbePrijavljenegaUporabnika = e => {
     const requestBody = {
@@ -219,7 +219,10 @@ export default class ActivityList extends Component {
         return res.json();
       })
       .then(resData => {
-        this.setState({ vrstaSluzbe: resData.data.vrstaSluzbeZaposlenegaUporabnika.vrsta_sluzbe });
+        this.setState({
+          vrstaSluzbe:
+            resData.data.vrstaSluzbeZaposlenegaUporabnika.vrsta_sluzbe,
+        });
         this.aktivnostiSluzbe();
       })
       .catch(err => {
@@ -228,13 +231,12 @@ export default class ActivityList extends Component {
   };
 
   onRefresh = () => {
-    this.setState({ refreshing: true });
-    if (this.state.trenutnaStran == "aktivnosti_uporabnika")
+    this.setState({refreshing: true});
+    if (this.state.trenutnaStran == 'aktivnosti_uporabnika')
       this.aktivnostiUporabnika();
-    else if (this.state.trenutnaStran == "aktivnosti_sluzbe")
+    else if (this.state.trenutnaStran == 'aktivnosti_sluzbe')
       this.aktivnostiSluzbe();
-    else
-      this.vseAktivnostiVPodjetju();
+    else this.vseAktivnostiVPodjetju();
   };
 
   render() {
@@ -249,9 +251,11 @@ export default class ActivityList extends Component {
           }>
           <Layout style={styles.activityList}>
             <Layout style={styles.inlineButtons}>
-              <Button onPress={this.aktivnostiSluzbe}>Tagged</Button>
-              <Button onPress={this.aktivnostiUporabnika}>Your posts</Button>
-              <Button onPress={this.vseAktivnostiVPodjetju}>All posts</Button>
+              <Button onPress={this.aktivnostiSluzbe}>MOJA OPRAVILA</Button>
+              <Button onPress={this.aktivnostiUporabnika}>MOJE OBJAVE</Button>
+              <Button onPress={this.vseAktivnostiVPodjetju}>
+                VSA OPRAVILA
+              </Button>
             </Layout>
             {this.state.activities ? ( //tole se uporabi da obstaja nek activities array
               this.state.activities.map((activity, index) => {
@@ -274,10 +278,10 @@ export default class ActivityList extends Component {
                 }
               })
             ) : (
-                <Layout style={styles.spinner}>
-                  <Spinner />
-                </Layout>
-              )}
+              <Layout style={styles.spinner}>
+                <Spinner />
+              </Layout>
+            )}
           </Layout>
         </ScrollView>
       </Layout>
@@ -306,7 +310,8 @@ const styles = StyleSheet.create({
   },
   inlineButtons: {
     flex: 1,
-    flexDirection: "row",
-    justifyContent: "center"
-  }
+    flexDirection: 'row',
+    justifyContent: 'center',
+    marginBottom: 10,
+  },
 });
