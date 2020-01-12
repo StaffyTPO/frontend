@@ -51,7 +51,7 @@ export default class AddNew extends Component {
                 <Text>Name: {this.state.name}</Text>
                 <Text>Surname: {this.state.surname}</Text>
                 <Avatar
-                  style={styles.avatar}
+                  style={{marginTop: 10}}
                   size="giant"
                   source={{uri: this.state.image}}
                 />
