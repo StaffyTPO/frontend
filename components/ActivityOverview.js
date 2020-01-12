@@ -17,6 +17,8 @@ import CommentsSection from './CommentsSection';
 import Tag from './Tag';
 import ActivityList from './ActivityList';
 
+const DoneIcon = style => <Icon {...style} name="checkmark-outline" />;
+
 export default class ActivityOverview extends Component {
   state = {aktivnost: ''};
 
@@ -197,7 +199,12 @@ export default class ActivityOverview extends Component {
               </Layout>
             </Layout>
             <Layout style={styles.activityContainer} level="1">
-              <Button onPress={this.aktivnostOpravljena}>OPRAVLJENO ✔</Button>
+              <Button
+                style={{flexDirection: 'row-reverse'}}
+                onPress={this.aktivnostOpravljena}
+                icon={DoneIcon}>
+                OPRAVLJENO
+              </Button>
             </Layout>
             <Layout style={styles.activityContainer} level="1">
               <Layout style={styles.activity}>
@@ -252,5 +259,6 @@ const styles = StyleSheet.create({
   slika: {
     resizeMode: 'cover',
     height: 300,
+    borderRadius: 10,
   },
 });

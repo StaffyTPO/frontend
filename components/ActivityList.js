@@ -14,6 +14,7 @@ export default class ActivityList extends Component {
     prijavljenUporabnik: null,
     vrstaSluzbe: null,
     trenutnaStran: 'aktivnosti_sluzbe',
+    izbran: 0,
   };
 
   nastaviPrijavljenegaUporabnika = e => {
@@ -77,6 +78,7 @@ export default class ActivityList extends Component {
           activities: resData.data.aktivnostiPodaneSluzbe,
           refreshing: false,
           trenutnaStran: 'aktivnosti_sluzbe',
+          izbran: 0,
         });
       })
       .catch(err => {
@@ -132,6 +134,7 @@ export default class ActivityList extends Component {
           activities: resData.data.aktivnostiUporabnika,
           refreshing: false,
           trenutnaStran: 'aktivnosti_uporabnika',
+          izbran: 1,
         });
       })
       .catch(err => {
@@ -187,6 +190,7 @@ export default class ActivityList extends Component {
           activities: resData.data.aktivnosti,
           refreshing: false,
           trenutnaStran: 'aktivnosti_podjetja',
+          izbran: 2,
         });
       })
       .catch(err => {
@@ -251,9 +255,22 @@ export default class ActivityList extends Component {
           }>
           <Layout style={styles.activityList}>
             <Layout style={styles.inlineButtons}>
-              <Button onPress={this.aktivnostiSluzbe}>MOJA OPRAVILA</Button>
-              <Button onPress={this.aktivnostiUporabnika}>MOJE OBJAVE</Button>
-              <Button onPress={this.vseAktivnostiVPodjetju}>
+              <Button
+                appearance={this.state.izbran == 0 ? 'outline' : 'small'}
+                size="small"
+                onPress={this.aktivnostiSluzbe}>
+                MOJA OPRAVILA
+              </Button>
+              <Button
+                appearance={this.state.izbran == 1 ? 'outline' : 'small'}
+                size="small"
+                onPress={this.aktivnostiUporabnika}>
+                MOJE OBJAVE
+              </Button>
+              <Button
+                appearance={this.state.izbran == 2 ? 'outline' : 'small'}
+                size="small"
+                onPress={this.vseAktivnostiVPodjetju}>
                 VSA OPRAVILA
               </Button>
             </Layout>
@@ -311,7 +328,7 @@ const styles = StyleSheet.create({
   inlineButtons: {
     flex: 1,
     flexDirection: 'row',
-    justifyContent: 'center',
+    justifyContent: 'space-between',
     marginBottom: 10,
   },
 });
