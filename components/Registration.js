@@ -247,7 +247,8 @@ export default class Registration extends Component {
       variables: {
         ime: this.state.ime,
         priimek: this.state.priimek,
-        slika: '',
+        slika:
+          'https://cdn1.iconfinder.com/data/icons/people-avatar-glyph/64/male_glasses_hacker_people_man_programmer_avatar-512.png',
         telefon: this.state.telefonska,
         email: this.state.email,
         geslo: this.state.geslo,
@@ -282,7 +283,7 @@ export default class Registration extends Component {
       this.state.ime.length >= 1 &&
       this.state.priimek.length >= 1 &&
       this.state.email.length >= 7 &&
-      this.state.geslo.length >= 6 &&
+      this.state.geslo.length >= 2 &&
       this.state.izbranoPodjetje != '' &&
       this.state.izbranaVrstaSluzbe != ''
     ) {
