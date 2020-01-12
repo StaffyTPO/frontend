@@ -14,10 +14,11 @@ const home = style => <Icon {...style} name="home-outline" />;
 const add = style => <Icon {...style} name="plus-outline" />;
 const list = style => <Icon {...style} name="list-outline" />;
 const statistics = style => <Icon {...style} name="trending-up-outline" />;
+const person = style => <Icon {...style} name="person-outline" />;
 
 export default class TabComponents extends React.Component {
   state = {
-    icons: [home, add, statistics],
+    icons: [home, add, person],
   };
   render() {
     const {state} = this.props.navigation;
